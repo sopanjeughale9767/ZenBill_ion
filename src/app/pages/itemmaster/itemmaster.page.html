@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Item Master</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button routerLink="/addItemMasterItem" color="primary" expand="block">
+    Add New Item
+  </ion-button>
+  <div class="printable-content">
+    <table width="100%">
+      <tr class="bottom">
+        <th>HSN</th>
+        <th>Item Name</th>
+        <th>Price</th>
+        <th>Unit</th>
+
+        <th>GST(%)</th>
+        <!-- <th *ngIf="isIntra">SGST</th> -->
+        <!-- <th *ngIf="!isIntra">igst</th> -->
+
+        <th></th>
+        <th></th>
+      </tr>
+      <ng-container *ngFor="let item of shared.itemMastersData">
+        <tr>
+          <td>{{item.hsnCode}}</td>
+          <td>{{item.itemName}}</td>
+          <td>{{item.itemPrice}}</td>
+          <td>{{item.unit}}</td>
+          <td>{{item.gst}}</td>
+          <!-- <td *ngIf="isIntra">{{item.gst}}/2</td> -->
+
+          <!-- <td *ngIf="!isIntra">{{item.gst}}</td> -->
+          <td>
+            <ion-icon slot="icon-only" name="trash" style="color: red;" (click)="deleteItem(item.itemId)"></ion-icon>&nbsp;&nbsp;
+              <ion-icon slot="icon-only" name="create" routerLink="/updateitemmasteritem/{{item.itemId}}"></ion-icon>
+          </td>
+        </tr>
+      </ng-container>
+    </table>
+  </div>
+
+</ion-content>

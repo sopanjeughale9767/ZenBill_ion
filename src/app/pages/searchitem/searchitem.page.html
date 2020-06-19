@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Search Item</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item class="ion-no-padding">
+    <ion-searchbar class="ion-no-padding" placeholder="Select Item" (ionChange)="onSearchChange($event)"
+      [debounce]="250"></ion-searchbar>
+      <ion-icon slot="end" name="add" color="primary" routerLink="/additem"></ion-icon>
+  </ion-item>
+  
+    <ion-item *ngFor="let item of shared.searchItems" (click)="getItemDetails(item)" value="item.itemName">
+      {{item.itemName}}</ion-item>
+ 
+</ion-content>

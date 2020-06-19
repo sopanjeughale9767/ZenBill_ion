@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Add Item</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item class="ion-no-padding">
+    <ion-searchbar class="ion-no-padding" placeholder="Select Item" routerLink="/searchitem"
+      [debounce]="250"></ion-searchbar>
+
+      <ion-icon slot="end" name="add" color="primary" routerLink="/additem"></ion-icon>
+
+  </ion-item>
+  <ion-card>
+    <form #Form="ngForm" class="form">
+      <ng-container *ngIf="shared.isSearch==true">
+        <ion-item>
+          <ion-label position="floating">Enter Rate</ion-label>
+          <ion-input type="number" name="itemPrice" [(ngModel)]="shared.formData.itemPrice" required></ion-input>
+        </ion-item>
+      <ion-item>
+        <ion-label position="floating">Enter Quantity</ion-label>
+        <ion-input type="number" name="quantity" [(ngModel)]="shared.formData.quantity" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Enter Discount(%)</ion-label>
+        <ion-input type="number" name="discount" [(ngModel)]="shared.formData.discount" required></ion-input>
+      </ion-item>
+      <ion-item submit color="primary" [disabled]="!Form.form.valid" (click)="addProduct()" >
+        <ion-label class="ion-text-center" >Add Item</ion-label>
+      </ion-item>
+      
+    </ng-container>
+</form>
+  </ion-card>
+
+
+  <div class="printable-content" *ngIf="showTable && shared.itemData.length>0">
+    <table width="100%">
+      <tr class="bottom">
+        <th>HSN</th>
+        <th>Item Name</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Unit</th>
+        <th>Discount</th>
+
+        <ng-container *ngIf="gstBit==1">
+          <th *ngIf="isIntra">CGST</th>
+          <th *ngIf="isIntra">SGST</th>
+          <th *ngIf="!isIntra">igst</th>
+        </ng-container>
+
+
+        <th style="border-right: 1px solid black;"></th>
+      </tr>
+      <ng-container *ngFor="let item of shared.itemData">
+        <tr>
+          <td>{{item.hsnCode}}</td>
+          <td>{{item.itemName}}</td>
+          <td>{{item.quantity}}</td>
+          <td>{{item.itemPrice}}</td>
+          <td>{{item.unit}}</td>
+          <td>{{item.discount}}</td>
+          <ng-container *ngIf="gstBit==1">
+            <td *ngIf="isIntra">{{item.gst/2}}</td>
+            <td *ngIf="isIntra">{{item.gst/2}}</td>
+
+            <td *ngIf="!isIntra">{{item.gst}}</td>
+          </ng-container>
+
+          <td style="border-right: 1px solid black;">
+            <ion-icon slot="icon-only" name="trash" style="color: red;" (click)="removeItem(item.itemId)"></ion-icon>
+          </td>
+
+        </tr>
+
+      </ng-container>
+    </table>
+  </div>
+  <ion-button expand="block" routerLink="/addinvoiceinfo" *ngIf="showButton && shared.itemData.length>0">
+    Generate Invoice
+  </ion-button>
+</ion-content>

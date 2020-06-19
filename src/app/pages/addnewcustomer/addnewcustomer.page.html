@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Add New Customer</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <form #Form="ngForm" class="form" (ngSubmit)="add()">
+      <ion-item>
+        <ion-label position="floating">Full Name <ion-text color="danger">*</ion-text>
+        </ion-label>
+        <ion-input type="text" name="custName" [(ngModel)]="formData.custName" required></ion-input>
+        <!-- <ion-icon slot="end" name="search" (click)="onSearch()"></ion-icon> -->
+
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating"> Mobile Number <ion-text color="danger">*</ion-text>
+        </ion-label>
+        <ion-input name="custMobile" type="number" [(ngModel)]="formData.custMobile" minlength="10" maxlength="10"
+          pattern="^[1-9][0-9]{9}$" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating"> Address <ion-text color="danger">*</ion-text>
+        </ion-label>
+        <ion-input name="custAddress" [(ngModel)]="formData.custAddress" type="text" required ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating"> GST Number <ion-text *ngIf="shared.isSelectGST" color="danger">*</ion-text>
+        </ion-label>
+        <ion-input name="custGstNumber" type="text" [(ngModel)]="formData.custGstNumber"
+          pattern="\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}" minlength="15" maxlength="15" [required]="shared.isSelectGST"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">State Name <ion-text color="danger">*</ion-text>
+        </ion-label>
+        <ion-input name="custStateName" type="text" [(ngModel)]="formData.custStateName" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Pincode / Postal code <ion-text color="danger">*</ion-text>
+        </ion-label>
+        <ion-input name="custCode" type="number" [(ngModel)]="formData.custCode" pattern="^[1-9][0-9]{5}$" minlength="6"
+          maxlength="6" required></ion-input>
+      </ion-item>
+      <ion-button expand="block" type="submit" [disabled]="!Form.form.valid" >
+        Add
+      </ion-button>
+      <!-- </ng-container> -->
+    </form>
+  </ion-card>
+</ion-content>

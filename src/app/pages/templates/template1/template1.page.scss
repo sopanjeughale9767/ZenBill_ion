@@ -1,0 +1,53 @@
+.brd-top-rt{
+    border: 1px solid grey;
+    border-left: none;
+    border-bottom: none;
+}
+
+.brd-right-btm{
+    border-right: 1px solid grey;
+    border-bottom: 1px solid grey;
+}
+
+.brd-btm{
+    border-bottom: 1px solid grey;
+}
+
+.brd-left{
+    border-left: 1px solid grey;
+}
+.brd-rgt{
+    border-right: 1px solid grey;
+}
+
+b{
+    font-size: 12px;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+
+  .maindiv{
+   
+    border: solid black 1px;
+    // padding: 10px;
+    // margin: 10px;
+  }
+
+  ion-content {
+    background-color: #c0c0ff;
+   
+  }
+  .printable-content {
+    // margin: 16px;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    margin: 2px;
+   
+  }
+
+  td{
+      padding: 2px;
+  }

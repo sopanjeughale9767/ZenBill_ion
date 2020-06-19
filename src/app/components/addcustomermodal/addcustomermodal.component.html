@@ -1,0 +1,38 @@
+<ion-card>
+    <ion-item>
+      <ion-label position="floating">Full Name <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input type="text" name="custName"  [(ngModel)]="data.custName"></ion-input>
+      <!-- <ion-icon slot="end" name="search" (click)="onSearch()"></ion-icon> -->
+
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating"> Mobile Number <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input name="custMobile" type="text"  [(ngModel)]="data.custMobile"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating"> Address <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input name="custAddress" [(ngModel)]="data.custAddress" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating"> GST Number <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input name="custGstNumber" type="text"  [(ngModel)]="data.custGstNumber"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">State Name <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input name="custStateName" type="text" [(ngModel)]="data.custStateName" ></ion-input>
+    </ion-item>
+    <ion-item>
+      
+      <ion-label position="floating">Pincode / Postal code <ion-text color="danger">*</ion-text></ion-label>
+
+      <ion-input name="custCode" type="text" [(ngModel)]="data.custCode"></ion-input>
+    </ion-item>
+    <ion-button expand="block" (click)="add()">
+      Add
+    </ion-button>
+  <!-- </ng-container> -->
+
+</ion-card>

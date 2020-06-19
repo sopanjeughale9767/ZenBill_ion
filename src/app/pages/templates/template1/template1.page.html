@@ -1,0 +1,306 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Invoice</ion-title>
+    <ion-buttons slot="primary">
+      <ion-icon slot="icon-only" name="paper" (click)="presentPopover($event)"></ion-icon>
+      <ion-button *ngIf="shared.isSelectGST" color="primary" (click)="create()">
+        <ion-icon slot="icon-only" name="Download"></ion-icon>
+      </ion-button>
+
+      <ion-button *ngIf="!shared.isSelectGST" color="primary" (click)="create1()">
+        <ion-icon slot="icon-only" name="Download"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="maindiv">
+    <h1 class="ion-text-center">TAX INVOICE</h1>
+    <table style="padding: 2px;" width="100%">
+      <tr>
+        <td rowspan="3" width="40%">Name:{{shared.companyData.companyName}},<br>
+          Address: {{shared.companyData.companyAddress}},<br>
+          Email:{{shared.companyData.companyEmail}},<br>
+          GST No.:{{shared.companyData.companyGstNo}}
+        </td>
+        <td>Invoice Number<br>
+          {{shared.invoiceData.invoiceNumber}}
+        </td>
+        <td>Date<br>
+          <ion-label>{{date}}</ion-label>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Delivery Note<br>
+          {{shared.invoiceData.deliveryNote}}
+        </td>
+        <td>Mode of payment<br>
+          {{shared.invoiceData.paymentMode}}
+        </td>
+      </tr>
+      <tr>
+        <td>Suppliers Ref.<br>
+          {{shared.invoiceData.supplierRef}}
+        </td>
+        <td>Other Refrence<br>
+          {{shared.invoiceData.otherRef}}
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="7">Byer<br>
+          {{this.shared.customerData.custName}}<br>
+          Gst.No.:{{this.shared.customerData.custGstNumber}}
+          State : {{shared.customerData.custStateName}},<br>
+          State Code : {{shared.customerData.custCode}}
+        </td>
+        <td>Byers Order No.<br>
+          {{shared.invoiceData.byersOrderNumber}}
+        </td>
+        <td>
+          Date<br>
+          {{shared.invoiceData.byersDate}}
+        </td>
+      </tr>
+      <tr>
+        <td>Despatch Document No<br>
+          {{shared.invoiceData.despatchDocument}}
+        </td>
+        <td>Delivery Note<br>
+          {{shared.invoiceData.deliveryNote}}
+        </td>
+      </tr>
+      <tr>
+        <td>Despatch through<br>
+          {{shared.invoiceData.otherDespatchThrough}}
+        </td>
+        <td>Destination<br>
+          {{shared.invoiceData.destination}}
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">Tearms Of Delivery<br>
+          {{shared.companyData.deliveryTerms}}
+        </td>
+
+      </tr>
+    </table>
+
+    <div class="printable-content" *ngIf="shared.isSelectGST">
+
+    <table style="width:100%" >
+      <tr>
+        <th>Sr.No</th>
+        <th>Description of goods</th>
+        <th>HSN Code</th>
+        <th>Qty</th>
+        <th>Rate</th>
+        <th style="width: 1%;">Disc(%)</th>
+        <!-- <th>Per</th> -->
+        <th>Amt</th>
+      </tr>
+      <ng-container *ngFor="let item of shared.invoiceItems; let i=index">
+        <tr>
+          <td>{{i+1}}</td>
+          <td>{{item.itemName}}</td>
+          <td>{{item.hsnCode}}</td>
+          <td>{{item.quantity}}</td>
+          <td>{{item.itemPrice}}</td>
+          <td>{{item.discount}}</td>
+          <!-- <td>{{item.unit}}</td> -->
+          <td>{{item.subTotal}}</td>
+        </tr>
+      </ng-container>
+      <tr *ngIf="isSelectGST && isIntra">
+        <td></td>
+        <td colspan="5">SGST</td>
+        <td>{{invoiceAllData.totalSgstAmount}}</td>
+      </tr>
+      <tr *ngIf="shared.isSelectGST && isIntra">
+        <td></td>
+        <td colspan="5">CGST</td>
+        <td>{{invoiceAllData.totalCgstAmount}}</td>
+      </tr>
+      <tr *ngIf="shared.isSelectGST && !isIntra">
+        <td></td>
+        <td colspan="5">IGST</td>
+        <td>{{invoiceAllData.totalIgstAmount}}</td>
+      </tr>
+      <tr *ngIf="shared.isSelectGST">
+        <td></td>
+        <td colspan="5">Total</td>
+        <td>{{invoiceAllData.totalAmountAfterTax}}</td>
+      </tr>
+      <tr *ngIf="!shared.isSelectGST">
+        <td></td>
+        <td colspan="5">Total</td>
+        <td>{{invoiceAllData.subTotal}}</td>
+      </tr>
+    </table>
+    </div>
+    <div class="printable-content" *ngIf="!shared.isSelectGST">
+      <table  style="width:100%" *ngIf="gstBit == 1">
+        <tr>
+          <th>Sr.No</th>
+        <th>Description of goods</th>
+        <th>HSN Code</th>
+        <th>Qantity</th>
+        <th>Rate</th>
+        <th>Disc(%)</th>
+        <th>Disc Amount</th>
+        <th>Per</th>
+        <th>Amt</th>
+       
+        </tr>
+      
+        <ng-container *ngFor="let item of shared.invoiceItems; let i= index">
+          <tr>
+            <td>{{i+1}}</td>
+            <td>{{item.itemName}}</td>
+            <td>{{item.hsnCode}}</td>
+            <td>{{item.quantity}} {{item.unit}}</td>
+            <td>{{item.itemPrice}}</td>
+            <td>{{item.discount}}</td>
+            <td>{{item.discountAmount}}</td>
+            <td>{{item.per}}</td>
+            <td>{{item.subTotal}}</td>
+           
+          </tr>
+        </ng-container>
+        <tr *ngIf="shared.isSelectGST && isIntra">
+          <td></td>
+          <td colspan="7">SGST</td>
+          <td>{{invoiceAllData.totalSgstAmount}}</td>
+        </tr>
+        <tr *ngIf="shared.isSelectGST && isIntra">
+          <td></td>
+          <td colspan="7">CGST</td>
+          <td>{{invoiceAllData.totalCgstAmount}}</td>
+        </tr>
+        <tr *ngIf="shared.isSelectGST && !isIntra">
+          <td></td>
+          <td colspan="7">IGST</td>
+          <td>{{invoiceAllData.totalIgstAmount}}</td>
+        </tr>
+        <tr *ngIf="shared.isSelectGST">
+          <td></td>
+          <td colspan="7">Total</td>
+          <td>{{invoiceAllData.totalAmountAfterTax}}</td>
+        </tr>
+        <tr *ngIf="!shared.isSelectGST">
+          <td></td>
+          <td colspan="7">Total</td>
+          <td>{{invoiceAllData.subTotal}}</td>
+        </tr>
+      </table>
+      <div class="printable-content" >
+      <table style="width:100%" *ngIf="gstBit != 1">
+        <tr>
+          <th>Sr No</th>
+          <th>HSN</th>
+          <th>Item Name</th>
+          <th>Qty</th>
+          <th>Price</th>
+          <th>Unit</th>
+          <th>Total</th>
+          <th>Discount</th>
+          <th>SubTotal</th>
+        </tr>
+
+        <ng-container *ngFor="let item of shared.invoiceItems;let i=index">
+          <tr>
+            <td>{{i+1}}</td>
+            <td>{{item.hsnCode}}</td>
+            <td>{{item.itemName}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.itemPrice}}</td>
+            <td>{{item.unit}}</td>
+            <td>{{item.total}}</td>
+            <td>{{item.discount}}</td>
+            <td>{{item.subTotal}}</td>
+          </tr>
+        </ng-container>
+
+        <tr>
+            <td colSpan="8">Total Amount:</td>
+            <td colspan="8" class="left rgt">{{shared.invoiceData.subTotal}}</td>
+          </tr>
+      </table>
+      </div>
+    </div>
+
+    <ion-row class="brd-btm">
+      <ion-col size="12">
+        <p class="ion-no-margin">Amount Chargeble (in words) <ion-label>E. & O.E.</ion-label>
+        </p>
+
+        <h5 class="ion-no-margin" *ngIf="shared.isSelectGST"><b>INR :{{inwords}} Only</b></h5>
+        <h5 class="ion-no-margin" *ngIf="!shared.isSelectGST"><b>INR :{{inword}} Only</b></h5>
+      </ion-col>
+    </ion-row>
+
+    <div class="printable-content" >
+    <table style="width:100%" *ngIf="shared.isSelectGST">
+      <tr>
+        <th rowspan="2">HSN / SAC</th>
+        <th rowspan="2">Taxable Amount</th>
+        <th colspan="2" *ngIf="isIntra">Central Tax(%)</th>
+        <th colspan="2" *ngIf="isIntra">State Tax(%)</th>
+        <th colspan="2" *ngIf="!isIntra">International Tax(%)</th>
+
+        <th rowspan="2">Tax Amount</th>
+      </tr>
+      <tr>
+        <th *ngIf="isIntra">Rate</th>
+        <th *ngIf="isIntra">Amt</th>
+        <th *ngIf="isIntra">Rate</th>
+        <th *ngIf="isIntra">Amt</th>
+        <th *ngIf="!isIntra">Rate</th>
+        <th *ngIf="!isIntra">Amt</th>
+      </tr>
+      <ng-container *ngFor="let item of shared.invoiceItems">
+        <tr>
+          <td>{{item.hsnCode}}</td>
+          <td>{{item.subTotal}}</td>
+          <td *ngIf="isIntra">{{item.gst/2}}</td>
+          <td *ngIf="isIntra">{{((item.subTotal)*(item.gst/2))/100}}</td>
+          <td *ngIf="isIntra">{{item.gst/2}}</td>
+          <td *ngIf="isIntra">{{((item.subTotal)*(item.gst/2))/100}}</td>
+          <td *ngIf="!isIntra">{{item.gst}}</td>
+          <td *ngIf="!isIntra">{{((item.subTotal)*(item.gst))/100}}</td>
+          <td>{{item.taxAmount}}</td>
+        </tr>
+      </ng-container>
+    </table>
+</div>
+   
+
+    <ion-row>
+      <ion-col size="12" class="brd-btm" *ngIf="shared.isSelectGST">
+        <ion-label>Tax Amount (in words):<b>INR {{taxAmount}} Only</b></ion-label>
+      </ion-col>
+      <ion-col size="12" class="right brd-btm">
+        <ion-label>Note:</ion-label><br>
+        <ion-label>{{shared.invoiceData.note}}</ion-label>
+      </ion-col>
+      <ion-col size="12">
+        <ion-row>
+          <ion-col size="6" class="brd-rgt">
+            <h3>Declaration:</h3><br>
+            <p>{{this.shared.invoiceData.declaration}}</p>
+          </ion-col>
+          <ion-col size="6">
+            <h5 style="float: right;"><b>for {{this.shared.customerData.custName}}</b></h5>
+            <br><br> <br><br> <br><br>
+            <h6 style="float: right;">Authorised Signatory</h6>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </div>
+
+</ion-content>

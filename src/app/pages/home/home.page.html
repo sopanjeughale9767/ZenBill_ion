@@ -1,0 +1,270 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Invoice</ion-title>
+    <ion-buttons slot="primary">
+      <ion-icon slot="icon-only" name="paper" (click)="presentPopover($event)"></ion-icon>
+      <ion-button color="dark" (click)="create()" *ngIf="shared.isSelectGST">
+        <ion-icon color="primary" slot="icon-only" name="Download"></ion-icon>
+      </ion-button>
+      <ion-button color="dark" (click)="create1()" *ngIf="!shared.isSelectGST">
+        <ion-icon color="primary" slot="icon-only" name="Download"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+
+  <div class="maindiv" id="id">
+    <div class="ion-text-center">
+      <ion-label style="text-align: center;"><b>{{shared.companyData.companyName}}</b></ion-label><br>
+      <ion-label>{{shared.companyData.companyAddress}}
+      </ion-label><br>
+      <ion-label><b>Email-id:</b>{{shared.companyData.companyEmail}}</ion-label><br>
+      <ion-label><b>GSTIN :</b>{{shared.companyData.companyGstNo}}</ion-label>
+    </div>
+
+    <div style="background: rgb(201, 200, 200);">
+      <h2 class="ion-text-center"><b>TAX INVOICE</b></h2>
+    </div>
+
+    <table width="100%">
+      <tr>
+        <td width="25% ">Invoice Date</td>
+        <td width="25%">{{date}}</td>
+
+      </tr>
+      <tr>
+        <td width="25%">Invoice Number</td>
+        <td width="25%">{{shared.invoiceData.invoiceNumber}}</td>
+      </tr>
+     
+      <tr style="background: rgb(201, 200, 200);">
+        <td>Bill To</td>
+        <td></td>
+        <!-- <td width="25%">Ship To:</td>
+          <td width="25%"> </td> -->
+      </tr>
+
+      <tr>
+        <td width="25% ">Name </td>
+        <td width="25%">{{shared.customerData.custName}}</td>
+        <!-- <td width="25%">Name : </td>
+          <td width="25%">{{shared.customerData.custName}} </td> -->
+      </tr>
+      <tr>
+        <td width="25% ">Address </td>
+        <td width="25%">{{shared.customerData.custAddress}}</td>
+        <!-- <td width="25%">Address : </td>
+          <td width="25%">{{shared.customerData.custAddress}} </td> -->
+      </tr>
+      <tr>
+        <td width="25% ">GSTIN </td>
+        <td width="25%">{{shared.customerData.custGstNumber}}</td>
+        <!-- <td width="25%">GSTIN : </td>
+          <td width="25%">{{shared.customerData.custGstNumber}} </td> -->
+      </tr>
+      <tr>
+        <td width="25% ">State </td>
+        <td width="25%">{{shared.customerData.custStateName}}</td>
+        <!-- <td width="25%">State : </td>
+          <td width="25%">{{shared.customerData.custStateName}} </td> -->
+      </tr>
+      <tr>
+        <td width="25% ">State No</td>
+        <td width="25%">{{shared.customerData.custCode}}</td>
+        <!-- <td width="25%">State No.:</td>
+          <td width="25%"> {{shared.customerData.custCode}}</td> -->
+      </tr>
+    </table>
+    <hr>
+
+    <div class="printable-content" id="printable-content">
+      <table style="width:100%" *ngIf="gstBit == 1">
+        <tr>
+          <th rowspan="2">Sr No</th>
+          <th rowspan="2">HSN</th>
+          <th rowspan="2">Item Name</th>
+          <th rowspan="2">Qty</th>
+          <th rowspan="2">Price</th>
+          <th rowspan="2">Unit</th>
+          <th rowspan="2">Total</th>
+          <th rowspan="2">Disc(%)</th>
+          <th rowspan="2">Disc. Amount</th>
+          <th rowspan="2">SubTotal</th>
+          <th colspan="2" *ngIf="isIntra">CGST</th>
+          <th colspan="2" *ngIf="isIntra">SGST</th>
+          <th colspan="2" *ngIf="!isIntra">IGST</th>
+          <th rowspan="2">Net Total</th>
+        </tr>
+        <tr>
+          <th *ngIf="isIntra">Rate</th>
+          <th *ngIf="isIntra">Amt</th>
+          <th *ngIf="isIntra">Rate</th>
+          <th *ngIf="isIntra">Amt</th>
+          <th *ngIf="!isIntra">Rate</th>
+          <th *ngIf="!isIntra">Amt</th>
+        </tr>
+
+        <ng-container *ngFor="let item of shared.itemData;let i=index">
+          <tr>
+            <td>{{i+1}}</td>
+            <td>{{item.hsnCode}}</td>
+            <td>{{item.itemName}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.itemPrice}}</td>
+            <td>{{item.unit}}</td>
+            <td>{{item.total}}</td>
+            <td>{{item.discount}}%</td>
+            <td>{{item.discountAmount}}</td>
+            <td>{{item.subTotal}}</td>
+
+            <td *ngIf="isIntra">{{item.gst/2}}%</td>
+            <td *ngIf="isIntra">{{item.cgstAmount}}</td>
+            <td *ngIf="isIntra">{{item.gst/2}}%</td>
+            <td *ngIf="isIntra">{{item.sgstAmount}}</td>
+            <td *ngIf="!isIntra">{{item.gst}}%</td>
+            <td *ngIf="!isIntra">{{item.igstAmount}}</td>
+
+
+            <td>{{item.netTotal}}</td>
+
+          </tr>
+        </ng-container>
+
+
+
+        <tr>
+          <td colSpan="8">Total Amount Before Tax:</td>
+          <td colspan="8" class="left rgt rightalign">{{shared.invoiceData.totalAmountBeforTax}}</td>
+        </tr>
+
+        <tr *ngIf="isIntra">
+          <td colspan="8">Add :CGST</td>
+          <td colspan="8" class="left rgt rightalign">{{shared.invoiceData.totalCgstAmount}}</td>
+        </tr>
+        <tr *ngIf="isIntra">
+          <td colspan="8">Add :SGST</td>
+          <td colspan="8" class="left rgt rightalign">{{shared.invoiceData.totalSgstAmount}}</td>
+        </tr>
+        <!-- <tr *ngIf="!isIntra">
+          <td colspan="8">Add :IGST</td>
+          <td colspan="8" class="left rgt">{{shared.invoiceData.totalIgstAmount}}</td>
+        </tr> -->
+        <tr>
+          <td colspan="8">Tax Amount : GST</td>
+          <td colspan="8" class="left rgt rightalign">{{shared.invoiceData.totalTaxableAmount}}</td>
+        </tr>
+        <tr>
+          <td colspan="8">Extra : </td>
+          <td colspan="8" class="left rgt rightalign"></td>
+        </tr>
+        <tr>
+          <td colspan="8">Total Amount After Tax : </td>
+          <td colspan="8" class="left rgt rightalign">{{shared.invoiceData.totalAmountAfterTax}}</td>
+        </tr>
+
+
+
+        <!-- <tr>
+          <td colSpan="7">Total Amount:</td>
+          <td colspan="7" class="left rgt">{{shared.invoiceData.totalAmountAfterTax}}</td>
+        </tr> -->
+
+
+      </table>
+
+      <table style="width:100%" *ngIf="gstBit != 1">
+        <tr>
+          <th>Sr No</th>
+          <th>HSN</th>
+          <th>Item Name</th>
+          <th>Qty</th>
+          <th>Price</th>
+          <th>Unit</th>
+          <th>Total</th>
+          <th>Disc(%)</th>
+          <th>Discount Amount</th>
+          <th>SubTotal</th>
+        </tr>
+
+        <ng-container *ngFor="let item of shared.itemData; let i=index">
+          <tr>
+            <td>{{i+1}}</td>
+            <td>{{item.hsnCode}}</td>
+            <td>{{item.itemName}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.itemPrice}}</td>
+            <td>{{item.unit}}</td>
+            <td>{{item.total}}</td>
+            <td>{{item.discount}}%</td>
+            <td>{{item.discountAmount}}</td>
+            <td>{{item.subTotal}}</td>
+          </tr>
+        </ng-container>
+
+        <tr>
+            <td colSpan="9">Total Amount:</td>
+            <td colspan="9" class="left rgt">{{shared.invoiceData.subTotal}}</td>
+          </tr>
+      </table>
+    </div>
+
+    <br>
+    <div class="printable-content" id="printable-content">
+    <table style="width:100%" *ngIf="gstBit==1">
+      <tr>
+        <th rowspan="2">HSN / SAC</th>
+        <th rowspan="2">Taxable Amount</th>
+        <th colspan="2" *ngIf="isIntra">Central Tax(%)</th>
+        <th colspan="2" *ngIf="isIntra">State Tax(%)</th>
+        <th colspan="2" *ngIf="!isIntra">International Tax(%)</th>
+
+        <th rowspan="2">Tax Amount</th>
+      </tr>
+      <tr>
+        <th *ngIf="isIntra">Rate</th>
+        <th *ngIf="isIntra">Amt</th>
+        <th *ngIf="isIntra">Rate</th>
+        <th *ngIf="isIntra">Amt</th>
+        <th *ngIf="!isIntra">Rate</th>
+        <th *ngIf="!isIntra">Amt</th>
+      </tr>
+      <ng-container *ngFor="let item of shared.itemData">
+        <tr>
+          <td>{{item.hsnCode}}</td>
+          <td>{{item.subTotal}}</td>
+          <td *ngIf="isIntra">{{item.gst/2}}</td>
+          <td *ngIf="isIntra">{{((item.subTotal)*(item.gst/2))/100}}</td>
+          <td *ngIf="isIntra">{{item.gst/2}}</td>
+          <td *ngIf="isIntra">{{((item.subTotal)*(item.gst/2))/100}}</td>
+          <td *ngIf="!isIntra">{{item.gst}}</td>
+          <td *ngIf="!isIntra">{{((item.subTotal)*(item.gst))/100}}</td>
+          <td>{{item.taxAmount}}</td>
+        </tr>
+      </ng-container>
+    </table>
+    </div>
+    <ion-row style="border: 1px solid black; height: auto;">
+      <ion-col size="4" style="border-right: 1px solid black;">
+        <b>Terms And Conditions</b><br>
+        <p>{{shared.companyData.deliveryTerms}}</p>
+      </ion-col>
+      <ion-col size="3" style="border-right: 1px solid black;">
+        <br><br>
+        <h6>(Common Seal)</h6>
+      </ion-col>
+      <ion-col size="5">
+        <div style="height: auto;border-bottom: 1px solid black;">
+          Certified that the particulars given above are true and
+          correct.
+        </div><br><br>
+        <b style="margin-left: auto;">Authorised Signatory</b>
+      </ion-col>
+    </ion-row>
+  </div>
+
+</ion-content>

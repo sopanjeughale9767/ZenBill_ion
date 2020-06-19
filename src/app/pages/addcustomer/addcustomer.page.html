@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title> {{this.shared.customerData.custName}}</ion-title>
+    <ion-button offset="5" slot="end" color="primary" routerLink="/invoice">
+      invoices
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-item class="ion-no-padding">
+        <ion-searchbar class="ion-no-padding" placeholder="Search Customer" routerLink="/searchcustomer" [debounce]="250"></ion-searchbar>
+        <ion-icon slot="end" name="add" color="primary" routerLink="/addnewcustomer"></ion-icon>
+      </ion-item>
+      <!-- <ion-list *ngIf="isItemAvailable"> 
+          <ion-item *ngFor="let item of customerData" (click)="getCustomerDetails(item.custId)" >{{item.custName}}</ion-item>
+        </ion-list> -->
+     <ng-container>
+        <ion-card>
+
+            <ion-card-content> 
+              <ion-row>
+                <ion-col size="6"> 
+                  <h3><b>Customer Name</b></h3>
+                </ion-col>
+                <ion-col size="6" class="rightside">
+                  <h3>{{shared.customerData.custName}}</h3>
+                </ion-col>
+      
+                <ion-col size="6">
+                  <h3><b>Customer Address</b></h3>
+                </ion-col>
+                <ion-col size="6" class="rightside">
+                  <h3>{{shared.customerData.custAddress}}</h3>
+                </ion-col>
+      
+                <ion-col size="6" *ngIf="shared.isSelectGST">
+                  <h3><b>Customer GST</b></h3>
+                </ion-col>
+                <ion-col size="6" class="rightside" *ngIf="shared.isSelectGST">
+                  <h3>{{shared.customerData.custGstNumber}}</h3>
+                </ion-col>
+      
+                <ion-col size="6">
+                  <h3><b>Mobile No.</b></h3>
+                </ion-col>
+                <ion-col size="6" class="rightside">
+                  <h3> {{shared.customerData.custMobile}}</h3>
+                </ion-col>
+              </ion-row>
+      
+      
+            </ion-card-content>
+      
+          </ion-card>
+    
+         <!-- <ion-row> -->
+           <!-- <ion-col size="2" offset="5"> -->
+            <ion-button offset="5" expand="block"  color="success" routerLink="/searchitem">
+              NEXT
+            </ion-button>
+           <!-- </ion-col> -->
+         <!-- </ion-row> -->
+     </ng-container>
+     
+</ion-content>
+\

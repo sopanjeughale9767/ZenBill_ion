@@ -1,0 +1,195 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Invoice</ion-title>
+    <ion-buttons slot="primary">
+      <ion-icon slot="icon-only" name="paper" (click)="presentPopover($event)"></ion-icon>
+      <ion-button  *ngIf="shared.isSelectGST"  color="primary" (click)="create()">
+        <ion-icon slot="icon-only" name="Download"></ion-icon>
+      </ion-button>
+
+      <ion-button  *ngIf="!shared.isSelectGST" color="primary" (click)="create1()">
+        <ion-icon slot="icon-only" name="Download"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="maindiv">
+    <h2 class="ion-text-center">TAX INVOICE</h2>
+    <ion-row class="border">
+      <ion-col size="12" class="ion-text-center bottom">
+        <h4>{{shared.companyData.companyName | uppercase}}</h4><br>
+        <p>{{shared.companyData.companyAddress | uppercase}}</p><br>
+        <p>{{shared.companyData.companyGstNo | uppercase}}</p><br>
+        <ion-label>Mo.No.:{{shared.companyData.custMobile}}</ion-label> &nbsp;&nbsp;<ion-label>
+          Email:{{shared.companyData.companyEmail}}</ion-label>
+      </ion-col>
+      <ion-col size="6" class="right">
+        <ion-label>PARTY NAME</ion-label><br>
+        <ion-label>{{shared.customerData.custName}}</ion-label>
+        <p>{{shared.customerData.custAddress}}</p><br>
+        <ion-label>Mobile No.:{{shared.customerData.custMobile}}</ion-label>
+      </ion-col>
+      <ion-col size="3" class="right">
+        <ion-label>INV No.:</ion-label>
+        <ion-label>1</ion-label><br>
+        <ion-label>P.O.No.:</ion-label>
+        <ion-label></ion-label><br>
+        <ion-label>D.C.No.:</ion-label>
+        <ion-label></ion-label>
+      </ion-col>
+      <ion-col size="3">
+        <ion-label>Date:</ion-label>
+        <ion-label>{{date}}</ion-label><br>
+        <ion-label>Date:</ion-label>
+        <ion-label></ion-label><br>
+        <ion-label>Date:</ion-label>
+        <ion-label></ion-label>
+      </ion-col>
+    </ion-row>
+    <div class="printable-content" >
+    <table style="width:100%" *ngIf="gstBit==1">
+      <tr>
+        <th>Sr.No</th>
+        <th>Description Of Goods</th>
+        <th>HSN</th>
+        <th>Qty</th>
+        <th>Disc(%)</th>
+        <th>Disc Amount</th>
+        <th>Rate</th>
+        <th>Taxable Amt</th>
+      </tr>
+      <ng-container *ngFor="let item of shared.invoiceItems;let i=index">
+        <tr>
+          <td>{{i+1}}</td>
+          <td>{{item.itemName}}</td>
+          <td>{{item.hsnCode}}</td>
+          <td>{{item.quantity}}</td>
+          <td>{{item.discount}}</td>
+          <td>{{item.discountAmount}}</td>
+          <td>{{item.itemPrice}}</td>
+          <td>{{item.subTotal}}</td>
+        </tr>
+      </ng-container>
+      <tr>
+        <td colspan="7">Total</td>
+        <td>{{shared.invoiceData.totalAmountAfterTax}}</td>
+      </tr>
+    </table>
+    </div>
+    <br>
+    <div class="printable-content" >
+    <table style="width:100%" *ngIf="gstBit!=1">
+      <tr>
+        <th>Sr.No</th>
+        <th>Description Of Goods</th>
+        <th>HSN</th>
+        <th>Qty</th>
+        <th>Rate</th>
+        <th>Disc(%)</th>
+        <th>Disc Amount</th>
+        <th>Subtotal</th>
+      </tr>
+      <ng-container *ngFor="let item of shared.invoiceItems;let i = index;">
+        <tr>
+          <td>{{i+1}}</td>
+          <td>{{item.itemName}}</td>
+          <td>{{item.hsnCode}}</td>
+          <td>{{item.quantity}}</td>
+          <td>{{item.itemPrice}}</td>
+          <td>{{item.discount}}</td>
+          <td>{{item.discountAmount}}</td>
+          <td>{{item.subTotal}}</td>
+        </tr>
+      </ng-container>
+      <tr>
+        <td colspan="7">Total</td>
+        <td>{{shared.invoiceData.subTotal}}</td>
+      </tr>
+    </table>
+    </div>
+    <div class="printable-content" >
+      <table style="width:100%" *ngIf="gstBit==1">
+        <tr>
+          <th rowspan="2">HSN / SAC</th>
+          <th rowspan="2">Taxable Amount</th>
+          <th colspan="2" *ngIf="isIntra">Central Tax(%)</th>
+          <th colspan="2" *ngIf="isIntra">State Tax(%)</th>
+          <th colspan="2" *ngIf="!isIntra">International Tax(%)</th>
+  
+          <th rowspan="2">Tax Amount</th>
+        </tr>
+        <tr>
+          <th *ngIf="isIntra">Rate</th>
+          <th *ngIf="isIntra">Amt</th>
+          <th *ngIf="isIntra">Rate</th>
+          <th *ngIf="isIntra">Amt</th>
+          <th *ngIf="!isIntra">Rate</th>
+          <th *ngIf="!isIntra">Amt</th>
+        </tr>
+        <ng-container *ngFor="let item of shared.invoiceItems">
+          <tr>
+            <td>{{item.hsnCode}}</td>
+            <td>{{item.subTotal}}</td>
+            <td *ngIf="isIntra">{{item.gst/2}}</td>
+            <td *ngIf="isIntra">{{((item.subTotal)*(item.gst/2))/100}}</td>
+            <td *ngIf="isIntra">{{item.gst/2}}</td>
+            <td *ngIf="isIntra">{{((item.subTotal)*(item.gst/2))/100}}</td>
+            <td *ngIf="!isIntra">{{item.gst}}</td>
+            <td *ngIf="!isIntra">{{((item.subTotal)*(item.gst))/100}}</td>
+            <td>{{item.taxAmount}}</td>
+          </tr>
+        </ng-container>
+      </table>
+  </div>
+
+    <ion-row class="border">
+       <ng-container *ngIf="gstBit==1">
+        <ion-col size="6" class="right bottom">
+          <ion-label>Total Taxable Value</ion-label>
+        </ion-col>
+        <ion-col size="6" class="bottom rightalign">{{shared.invoiceData.totalTaxableAmount}}</ion-col>
+
+        <ion-col size="6" class="right bottom">
+          <ion-label>Invoice Total</ion-label>
+        </ion-col>
+        <ion-col size="6" class="bottom rightalign" *ngIf="isIntra">{{shared.invoiceData.totalAmountAfterTax}}</ion-col>
+        <ion-col size="6" class="bottom rightalign" *ngIf="!isIntra">{{shared.invoiceData.totalAmountAfterTax}}
+        </ion-col>
+
+      </ng-container>
+
+
+      <ion-col size="12" class="bottom">
+        <ion-label *ngIf="gstBit==1">Amount In Words:<b>INR {{inwords}} Only</b></ion-label>
+        <ion-label *ngIf="gstBit!=1">Amount In Words:<b>INR {{inword}} Only</b></ion-label>
+      </ion-col>
+
+      <ion-col size="6" class="right bottom">
+        <ion-label>Terms and condition</ion-label>
+      </ion-col>
+
+      <ion-col size="6" class="bottom">
+        <ion-label> {{shared.companyData.deliveryNote}}</ion-label>
+      </ion-col>
+      <ion-col size="12" class="right bottom">
+        <ion-label>Note:</ion-label><br>
+        <ion-label>{{shared.invoiceData.note}}</ion-label>
+      </ion-col>
+      <ion-col size="6" class="right">
+        <ion-label>Declaration</ion-label><br>
+        <ion-label>{{shared.invoiceData.declaration}}</ion-label>
+      </ion-col>
+
+
+      <ion-col size="6">
+        <ion-label>For <b style="float: right;">{{shared.companyData.companyName}}</b></ion-label><br><br><br>
+        <ion-label>Auth Sign. </ion-label>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>
