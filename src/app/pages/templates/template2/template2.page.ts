@@ -48,7 +48,7 @@ export class Template2Page implements OnInit {
 
 
   ) {
-    this.date = this.datepipe.transform(new Date(), 'dd-mm-yyyy');
+    this.date = this.datepipe.transform(new Date(), 'dd/MM/y');
     this.no = this.decimalPipe.transform(450.2356, '1.2-2');
     this.gstBit = parseInt(localStorage.getItem('gstBit'));
 
@@ -111,7 +111,7 @@ export class Template2Page implements OnInit {
         this.shared.presentDangerToast('Invoice Item Data Not Found');
       }
     })
-    this.date = this.datepipe.transform(new Date(), 'dd-mm-yyyy');
+    this.date = this.datepipe.transform(new Date(), 'dd/MM/y');
     this.gstBit = parseInt(localStorage.getItem('gstBit'));
 
   }
@@ -161,10 +161,10 @@ export class Template2Page implements OnInit {
       temp.push(
         [
           { text: element.itemName },
-          { text: element.itemPrice },
-          { text: element.quantity },
-          { text: element.discount },
-          { text: element.discountAmount },
+          { text: element.itemPrice, alignment: 'right' },
+          { text: element.quantity , alignment: 'right'},
+          { text: element.discount, alignment: 'right' },
+          { text: element.discountAmount.toFixed(2) , alignment: 'right'},
           { text: element.netTotal,alignment:'right' },
         ])
     });
@@ -288,11 +288,11 @@ export class Template2Page implements OnInit {
             body: [
               [
                 { text: 'Total', bold: true, alignment: 'right' },
-                { text: this.shared.invoiceData.totalAmountAfterTax }
+                { text: this.shared.invoiceData.totalAmountAfterTax.toFixed(2),alignment:'right' }
               ],
               [
                 { text: 'Round Off', alignment: 'right' },
-                { text: this.shared.invoiceData.totalAmountAfterTax }
+                { text: this.shared.invoiceData.totalAmountAfterTax.toFixed(2) ,alignment:'right'}
               ]
             ]
           },
@@ -419,9 +419,9 @@ export class Template2Page implements OnInit {
           { text: element.itemName },
           { text: element.itemPrice },
           { text: element.quantity },
-          { text: element.discount },
-          { text: element.discountAmount },
-          { text: element.subTotal },
+          { text: element.discount.toFixed(2)  ,alignment: 'right'},
+          { text: element.discountAmount.toFixed(2), alignment: 'right' },
+          { text: element.subTotal.toFixed(2), alignment: 'right' },
         ])
     });
 
@@ -544,11 +544,11 @@ export class Template2Page implements OnInit {
             body: [
               [
                 { text: 'Total', bold: true, alignment: 'right' },
-                { text: this.shared.invoiceData.subTotal }
+                { text: this.shared.invoiceData.subTotal.toFixed(2) , alignment: 'right' }
               ],
               [
                 { text: 'Round Off', alignment: 'right' },
-                { text: this.shared.invoiceData.subTotal }
+                { text: this.shared.invoiceData.subTotal.toFixed(2) , alignment: 'right' }
               ]
             ]
           },

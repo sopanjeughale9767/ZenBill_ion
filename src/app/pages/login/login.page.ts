@@ -37,10 +37,10 @@ export class LoginPage implements OnInit {
     this.httpClient.post(this.config.url + 'login/login', this.formData).subscribe((data: any) => {
       this.shared.hideLoading();
       if (data.status) {
-        debugger
+        debugger 
         localStorage.setItem('companyData', JSON.stringify(data.result));
-        this.shared.customerData=data.result;
-    
+        this.shared.companyData=data.result;
+    this.shared.isLoginHidden=false;
         this.shared.presentSuccessToast(data.message);
         this.navCtrl.navigateRoot('/home1');
       }else {

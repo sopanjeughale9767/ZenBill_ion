@@ -75,6 +75,7 @@ this.formData=data.result[0];
               localStorage.setItem('companyId',data.result.companyId);
               
               this.shared.companyDetails(data.result);
+              this.shared.isLoginHidden=true;
               this.navCtrl.navigateRoot('/home1');
               this.shared.presentSuccessToast(data.message);
             }

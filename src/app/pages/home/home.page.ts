@@ -101,7 +101,7 @@ debugger
         this.shared.presentDangerToast('Invoice Item Data Not Found');
       }
     })
-    this.date = this.datepipe.transform(new Date(), 'dd-mm-yyyy');
+    this.date = this.datepipe.transform(new Date(), 'dd/MM/y'); 
     // this.gstBit = parseInt(localStorage.getItem('gstBit'));
   }
 
@@ -159,12 +159,12 @@ let tableMainTax=[];
     if(!this.isIntra){
     temp1.push([
       { text: 'HSN/SAC', alignment: 'center' },
-      { text: 'Taxable Amount', alignment: 'center' },
+      { text: 'Taxable Amount',  alignment: 'right'},
       { text: ''},
       { text: '' },
-      { text: 'IGST(%)', alignment: 'center' },
-      { text: 'IGST Amount', alignment: 'center' },
-      { text: 'Tax Amount', alignment: 'center' },
+      { text: 'IGST(%)',  alignment: 'right'},
+      { text: 'IGST Amount',  alignment: 'right'},
+      { text: 'Tax Amount',  alignment: 'right'},
     ]);
 
 
@@ -172,12 +172,12 @@ let tableMainTax=[];
       temp1.push(
         [
           { text: element.hsnCode },
-          { text: element.subTotal, alignment: 'right' },
+          { text: element.subTotal.toFixed(2), alignment: 'right' },
           { text: ''},
           { text: '' },
           { text: element.gst, alignment: 'right' },
-          { text: element.igstAmount, alignment: 'right' },
-          { text: element.taxAmount, alignment: 'right' },
+          { text: element.igstAmount.toFixed(2), alignment: 'right' },
+          { text: element.taxAmount.toFixed(2), alignment: 'right' },
 
         ]
       )
@@ -188,18 +188,18 @@ let tableMainTax=[];
       [
         { text: 'Total Invoice Amount In Words:' },
         { text: 'Amount Before Tax', bold: true },
-        { text: this.shared.invoiceData.totalAmountBeforTax, alignment: 'right', bold: true },
+        { text: this.shared.invoiceData.totalAmountBeforTax.toFixed(2), alignment: 'right', bold: true },
       ],
       
       [
         { text: '' },
         { text: 'Add IGST' },
-        { text: this.shared.invoiceData.totalIgstAmount, alignment: 'right' },
+        { text: this.shared.invoiceData.totalIgstAmount.toFixed(2), alignment: 'right' },
       ],
       [
         { text: 'Bank Details' },
         { text: 'Tax Amount : GST', bold: true },
-        { text: this.shared.invoiceData.totalTaxableAmount, alignment: 'right',bold:true },
+        { text: this.shared.invoiceData.totalTaxableAmount.toFixed(2), alignment: 'right',bold:true },
       ],
       [
         { text: '' },
@@ -209,17 +209,17 @@ let tableMainTax=[];
       [
         { text: '' },
         { text: 'Amount After Tax', bold: true },
-        { text: this.shared.invoiceData.totalAmountAfterTax, alignment: 'right',bold:true },
+        { text: this.shared.invoiceData.totalAmountAfterTax.toFixed(2), alignment: 'right',bold:true },
       ])
   }else{
     temp1.push([
       { text: 'HSN/SAC', alignment: 'center' },
-      { text: 'Taxable Amount', alignment: 'center' },
-      { text: 'CGST(%)', alignment: 'center' },
-      { text: 'CGST Amount', alignment: 'center' },
-      { text: 'SGST(%)', alignment: 'center' },
-      { text: 'SGST Amount', alignment: 'center' },
-      { text: 'Tax Amount', alignment: 'center' },
+      { text: 'Taxable Amount',  alignment: 'right' },
+      { text: 'CGST(%)',  alignment: 'right' },
+      { text: 'CGST Amount',  alignment: 'right' },
+      { text: 'SGST(%)',  alignment: 'right' },
+      { text: 'SGST Amount',  alignment: 'right' },
+      { text: 'Tax Amount',  alignment: 'right' },
     ]);
 
 
@@ -227,12 +227,12 @@ let tableMainTax=[];
       temp1.push(
         [
           { text: element.hsnCode },
-          { text: element.subTotal, alignment: 'right' },
+          { text: element.subTotal.toFixed(2), alignment: 'right' },
           { text: element.gst / 2, alignment: 'right' },
-          { text: element.cgstAmount, alignment: 'right' },
+          { text: element.cgstAmount.toFixed(2), alignment: 'right' },
           { text: element.gst / 2, alignment: 'right' },
-          { text: element.sgstAmount, alignment: 'right' },
-          { text: element.taxAmount, alignment: 'right' },
+          { text: element.sgstAmount.toFixed(2), alignment: 'right' },
+          { text: element.taxAmount.toFixed(2), alignment: 'right' },
 
         ]
       )
@@ -243,22 +243,22 @@ let tableMainTax=[];
       [
         { text: 'Total Invoice Amount In Words:' },
         { text: 'Amount Before Tax', bold: true },
-        { text: this.shared.invoiceData.totalAmountBeforTax, alignment: 'right', bold: true },
+        { text: this.shared.invoiceData.totalAmountBeforTax.toFixed(2), alignment: 'right', bold: true },
       ],
       [
         { text: this.inwords },
         { text: 'Add CGST' },
-        { text: this.shared.invoiceData.totalCgstAmount, alignment: 'right' },
+        { text: this.shared.invoiceData.totalCgstAmount.toFixed(2), alignment: 'right' },
       ],
       [
         { text: '' },
         { text: 'Add SGST' },
-        { text: this.shared.invoiceData.totalSgstAmount, alignment: 'right' },
+        { text: this.shared.invoiceData.totalSgstAmount.toFixed(2), alignment: 'right' },
       ],
       [
         { text: 'Bank Details' },
         { text: 'Tax Amount : GST', bold: true },
-        { text: this.shared.invoiceData.totalTaxableAmount, alignment: 'right',bold:true },
+        { text: this.shared.invoiceData.totalTaxableAmount.toFixed(2), alignment: 'right',bold:true },
       ],
       [
         { text: '' },
@@ -268,7 +268,7 @@ let tableMainTax=[];
       [
         { text: '' },
         { text: 'Amount After Tax', bold: true },
-        { text: this.shared.invoiceData.totalAmountAfterTax, alignment: 'right',bold:true },
+        { text: this.shared.invoiceData.totalAmountAfterTax.toFixed(2), alignment: 'right',bold:true },
       ])
   }
     this.shared.itemData.forEach(element => {
@@ -276,14 +276,14 @@ let tableMainTax=[];
         [
           { text: element.hsnCode },
           { text: element.itemName },
-          { text: element.quantity },
-          { text: element.itemPrice },
-          { text: element.unit },
-          { text: element.total },
-          { text: element.discount },
-          { text: element.subTotal },
-          { text: element.gst },
-          { text: element.netTotal ,alignment:'right'}
+          { text: element.quantity , alignment: 'right'},
+          { text: element.itemPrice , alignment: 'right'},
+          { text: element.unit , alignment: 'right'},
+          { text: element.total.toFixed(2) , alignment: 'right'},
+          { text: element.discount.toFixed(2) , alignment: 'right'},
+          { text: element.subTotal.toFixed(2) , alignment: 'right'},
+          { text: element.gst , alignment: 'right'},
+          { text: element.netTotal.toFixed(2) ,alignment:'right'}
         ])
     });
     var docDefination = {
@@ -292,7 +292,7 @@ let tableMainTax=[];
         {
           text: [
             this.shared.companyData.companyName, '\n',
-            this.shared.companyData.companyAddress, '\n',
+            this.shared.companyData.companyAddress, '\n', 
             'E-mail-Id:', this.shared.companyData.companyEmail,
             '   GSTIN:', this.shared.companyData.companyGstNo
           ], alignment: 'center'
@@ -390,7 +390,7 @@ let tableMainTax=[];
             body:
               [
                 [{ text: 'Total', alignment: 'right', bold: true },
-                { text: this.shared.invoiceData.totalAmountBeforTax, alignment: 'right' }]
+                { text: this.shared.invoiceData.totalAmountBeforTax.toFixed(2), alignment: 'right' }]
               ]
           },
           layout: {
@@ -493,12 +493,12 @@ let tableMainTax=[];
         [
           { text: element.hsnCode },
           { text: element.itemName },
-          { text: element.quantity },
-          { text: element.itemPrice },
-          { text: element.unit },
-          { text: element.total },
-          { text: element.discount },
-          { text: element.subTotal },
+          { text: element.quantity , alignment: 'right'},
+          { text: element.itemPrice , alignment: 'right'},
+          { text: element.unit , alignment: 'right'},
+          { text: element.total.toFixed(2) , alignment: 'right'},
+          { text: element.discount.toFixed(2) , alignment: 'right'},
+          { text: element.subTotal.toFixed(2) , alignment: 'right'},
         ])
     });
     var docDefination = {
@@ -598,7 +598,7 @@ let tableMainTax=[];
             body:
               [
                 [{ text: 'Total', alignment: 'right', bold: true },
-                { text: this.shared.invoiceData.totalAmountBeforTax, alignment: 'right' }]
+                { text: this.shared.invoiceData.totalAmountBeforTax.toFixed(2), alignment: 'right' }]
               ]
           },
           layout: {

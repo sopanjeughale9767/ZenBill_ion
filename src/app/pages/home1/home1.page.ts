@@ -22,9 +22,8 @@ export class Home1Page implements OnInit {
   }
 
   ngOnInit() {
-
   }
-
+ 
   onCustomer(bit) {
     debugger
     if (bit == 1) {

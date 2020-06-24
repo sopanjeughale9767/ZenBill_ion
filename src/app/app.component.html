@@ -2,14 +2,32 @@
   <ion-split-pane>
     <ion-menu>
       <ion-header>
-        <ion-toolbar *ngIf="shared.companyData.companyId != null || shared.companyData.companyId != undefined">
+        <ion-toolbar *ngIf="shared.isLoginHidden">
           <ion-avatar slot="start" class="user-avatar">
             <img src="assets/img/avatar.png">
           </ion-avatar>
 
           <ion-label>
             <ion-text color="light">
-              <h1><strong> Invoice</strong></h1>
+              <h1><strong> Invoice {{shared.isLoginHidden}}</strong></h1>
+            </ion-text>
+            <a href="/login">
+              <ion-text color="light"> 
+                <h2>Login your account</h2>
+              </ion-text>
+            </a>
+            
+          </ion-label>
+        </ion-toolbar>
+        <ng-container>
+        <ion-toolbar *ngIf="! shared.isLoginHidden">
+          <ion-avatar slot="start" class="user-avatar">
+            <img src="assets/img/avatar.png">
+          </ion-avatar>
+
+          <ion-label>
+            <ion-text color="light">
+              <h1><strong> Invoice {{shared.isLoginHidden}}</strong></h1>
             </ion-text>
             <ion-text color="light">
               <h2>{{shared.companyData.companyName}}</h2>
@@ -17,8 +35,7 @@
             </ion-text>
 
             <ion-menu-toggle auto-hide="false">
-              <a class="text08" tappable (click)="this.shared.logOut()"
-                *ngIf="this.shared.customerData.companyId == null || this.shared.customerData.companyId != undefined">
+              <a class="text08" tappable (click)="this.shared.logOut()">
                 <ion-text color="secondary">
                   <strong>Logout</strong>
                 </ion-text>
@@ -41,27 +58,11 @@
           </ion-label>
         </ion-toolbar>
 
-        <ion-toolbar *ngIf="shared.companyData.companyId == null || shared.companyData.companyId == undefined">
-          <ion-avatar slot="start" class="user-avatar">
-            <img src="assets/img/avatar.png">
-          </ion-avatar>
-
-          <ion-label>
-            <ion-text color="light">
-              <h1><strong> Invoice</strong></h1>
-            </ion-text>
-            <a href="/login">
-              <ion-text color="light">
-                <h2>Login your account</h2>
-              </ion-text>
-            </a>
-            
-          </ion-label>
-        </ion-toolbar>
+      </ng-container>
       </ion-header>
       <ion-content>
 
-        <ion-list *ngIf="shared.companyData.companyId != null || shared.companyData.companyId != undefined">
+        <ion-list *ngIf="! shared.isLoginHidden">
 
           <div *ngFor="let p of appPages">
             <ion-menu-toggle auto-hide="false" *ngIf="p.url">

@@ -21,12 +21,12 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 })
 export class Template1Page implements OnInit {
   invoiceAllData = {
-    totalAmountAfterTax: '',
-    subTotal: '',
-    totalTaxableAmount: '',
-    totalSgstAmount: '',
-    totalCgstAmount: '',
-    totalIgstAmount: ''
+    totalAmountAfterTax: 0,
+    subTotal: 0,
+    totalTaxableAmount: 0,
+    totalSgstAmount: 0,
+    totalCgstAmount: 0,
+    totalIgstAmount: 0
   };
   inwords: any;
   date: any;
@@ -96,7 +96,7 @@ public numToWord: NumberToWordsPipe
         this.shared.presentDangerToast(data.message);
       }
     })
-    this.date = this.datepipe.transform(new Date(), 'dd-mm-yyyy');
+    this.date = this.datepipe.transform(new Date(), 'dd/MM/y');
     // this.gstBit = parseInt(localStoƒƒrage.getItem('gstBit'));
 
 
@@ -143,12 +143,12 @@ debugger
 
       { text: 'Rate', fillColor: 'whitesmoke', alignment: 'center' },
 
-      { text: 'Disc(%)', fillColor: 'whitesmoke', alignment: 'center' },
+      { text: 'Disc (%)', fillColor: 'whitesmoke', alignment: 'center' },
       { text: 'Disc. Amount', fillColor: 'whitesmoke', alignment: 'center' },
       { text: 'Amt', fillColor: 'whitesmoke', alignment: 'center' }
 
     ]);
-
+debugger
     this.shared.invoiceItems.forEach(element => {
       temp.push(
         [
@@ -181,7 +181,7 @@ if(!this.isIntra){
       temp1.push(
         [
           { text: element.hsnCode },
-          { text: element.subTotal, alignment: 'right' },
+          { text: element.subTotal.toFixed(2), alignment: 'right' },
           { text: '', alignment: 'right' }, 
           { text: '', alignment: 'right' }, 
 
@@ -196,12 +196,12 @@ if(!this.isIntra){
     totalValueTable.push(
       [
           { text: 'Total', bold: true, alignment: 'right' },
-          { text: this.shared.invoiceData.totalAmountBeforTax, alignment: 'right' },
+          { text: ''+this.shared.invoiceData.totalAmountBeforTax.toFixed(2), alignment: 'right' },
           { text: '' },
           { text: '' },
           { text: '' },
-          { text: this.shared.invoiceData.totaligstAmount, alignment: 'right' },
-          { text: this.shared.invoiceData.totalTaxableAmount, alignment: 'right' }
+          { text: ''+this.shared.invoiceData.totalIgstAmount.toFixed(2), alignment: 'right' },
+          { text: this.shared.invoiceData.totalTaxableAmount.toFixed(2), alignment: 'right' }
       ]
   );
 ///////////
@@ -225,7 +225,7 @@ DescTotalTabl.push(
     { text: '' },
     { text: '' },
     { text: '' },
-    { text: this.invoiceAllData.totalIgstAmount, style: 'boldalign' },
+    { text: this.invoiceAllData.totalIgstAmount.toFixed(2), style: 'boldalign' },
   ]
 );
 
@@ -258,9 +258,9 @@ DescTotalTabl.push(
     totalValueTable.push(
         [
           { text: 'Total', bold: true, alignment: 'right' },
-          { text: this.shared.invoiceData.totalAmountBeforTax , alignment: 'right' },
+          { text: this.shared.invoiceData.totalAmountBeforTax.toFixed(2) , alignment: 'right' },
           { text: '' },
-          { text: this.shared.invoiceData.totalcgstAmount.toFixed(2), alignment: 'right' },
+          { text: this.shared.invoiceData.totalCgstAmount.toFixed(2), alignment: 'right' },
           { text: '' },
           { text: this.shared.invoiceData.totalSgstAmount.toFixed(2), alignment: 'right' },
           { text: this.shared.invoiceData.totalTaxableAmount.toFixed(2), alignment: 'right' }
@@ -276,7 +276,7 @@ DescTotalTabl.push(
     { text: '' },
     { text: '' },
     { text: '' },
-    { text: this.shared.invoiceData.totalAmountBeforTax, style: 'boldalign', fillColor:'whitesmoke' },
+    { text: this.shared.invoiceData.totalAmountBeforTax.toFixed(2), style: 'boldalign', fillColor:'whitesmoke' },
   ],
   [
     { text: 'SGST', style: 'boldalign' },
@@ -287,7 +287,7 @@ DescTotalTabl.push(
     { text: '' },
     { text: '' },
     { text: '' },
-    { text: this.invoiceAllData.totalSgstAmount, style: 'boldalign' },
+    { text: this.invoiceAllData.totalSgstAmount.toFixed(2), style: 'boldalign' },
   ],
   [
     { text: 'CGST', style: 'boldalign' },
@@ -297,7 +297,7 @@ DescTotalTabl.push(
     { text: '' },
     { text: '' },
     { text: '' },
-    { text: this.invoiceAllData.totalCgstAmount, style: 'boldalign' },
+    { text: this.invoiceAllData.totalCgstAmount.toFixed(2), style: 'boldalign' },
   ]
 );
   }
@@ -394,7 +394,7 @@ DescTotalTabl.push(
                   table: {
                     widths: ['*'],
                     body: [
-                      [{ text: ['Dated\n', this.datepipe.transform(this.shared.invoiceData.byersDate, 'dd-mm-yyyy')] }],
+                      [{ text: ['Dated\n', this.datepipe.transform(this.shared.invoiceData.byersDate, 'dd/MM/y')] }],
                       [{ text: ['Delivery Note Date\n', ' '] }],
                       [{ text: ['Destination\n', this.shared.invoiceData.destination] }],
 
@@ -506,7 +506,7 @@ DescTotalTabl.push(
         {
           table: {
             // widths: ['*','*', '*', '*', '*', '*', '*', '*'],
-            widths: [70, 80, 30,60, 30,70, 80],
+            widths: ['*', 90, 30,70, 30,70, 80],
 
 
             body: temp1
@@ -523,7 +523,7 @@ DescTotalTabl.push(
         {
           table: {
             // widths: ['*', '*','*', '*', '*', '*', '*', '*'],
-            widths: [70, 80, 30,60, 30,70, 80],
+            widths: ['*', 90, 30,70, 30,70, 80],
 
 
             body: totalValueTable
@@ -613,11 +613,12 @@ DescTotalTabl.push(
       { text: 'Hsn Code', fillColor: 'whitesmoke', alignment: 'center' },
 
       { text: 'Qty', fillColor: 'whitesmoke', alignment: 'center' },
+      
       { text: 'Unit', fillColor: 'whitesmoke' ,alignment: 'center' },
 
       { text: 'Rate', fillColor: 'whitesmoke', alignment: 'center' },
 
-      { text: 'Disc(%)', fillColor: 'whitesmoke', alignment: 'center' },
+      { text: 'Disc (%)', fillColor: 'whitesmoke', alignment: 'center' },
       { text: 'Disc. Amount', fillColor: 'whitesmoke', alignment: 'center' },
       { text: 'Amt', fillColor: 'whitesmoke', alignment: 'center' }
 
@@ -729,7 +730,7 @@ DescTotalTabl.push(
                   table: {
                     widths: ['*'],
                     body: [
-                      [{ text: ['Dated\n', this.datepipe.transform(this.shared.invoiceData.byersDate, 'dd-mm-yyyy')] }],
+                      [{ text: ['Dated\n', this.datepipe.transform(this.shared.invoiceData.byersDate, 'dd/MM/y')] }],
                       [{ text: ['Delivery Note Date\n', ' '] }],
                       [{ text: ['Destination\n', this.shared.invoiceData.destination] }],
 
@@ -793,7 +794,7 @@ DescTotalTabl.push(
                 { text: '', fillColor: 'whitesmoke' },
                 { text: '', fillColor: 'whitesmoke' },
                 { text: '', fillColor: 'whitesmoke' },
-                { text: this.invoiceAllData.subTotal, style: 'boldalign', fillColor: 'whitesmoke' },
+                { text: this.invoiceAllData.subTotal.toFixed(2), style: 'boldalign', fillColor: 'whitesmoke' },
               ]
             ]
           },

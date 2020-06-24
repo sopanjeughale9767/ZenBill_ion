@@ -38,7 +38,7 @@ export class AddnewcustomerPage implements OnInit {
   add() {
     debugger
     this.shared.presentLoading();
-    this.formData.companyId= this.shared.companyData.companyId;
+    this.formData.companyId= ''+this.shared.companyData.companyId;
     this.httpClient.post(this.config.url + 'customer/addCustomer', this.formData).subscribe((data: any) => {
       if (data.status == true) {
         this.shared.customerData = data.result[0]; 

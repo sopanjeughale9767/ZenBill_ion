@@ -123,7 +123,8 @@ export class AppComponent implements OnDestroy {
   initializeApp() {
     this.platform.ready().then(() => {
       this.backButtonEvent();
-      this.statusBar.styleDefault();
+      // this.statusBar.styleDefault();
+      this.statusBar.backgroundColorByHexString('#3B3D4A');
       this.splashScreen.hide();
     });
   }
@@ -133,6 +134,7 @@ export class AppComponent implements OnDestroy {
     localStorage.setItem('companyData', null);
     // localStorage.removeItem('activationStatus');
     // localStorage.removeItem('pid');
+   
     this.navCtrl.navigateForward('/login');
   }
   goToEditProgile() {

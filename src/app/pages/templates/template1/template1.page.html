@@ -4,6 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Invoice</ion-title>
+    <!-- {{shared.invoiceData | json}} -->
     <ion-buttons slot="primary">
       <ion-icon slot="icon-only" name="paper" (click)="presentPopover($event)"></ion-icon>
       <ion-button *ngIf="shared.isSelectGST" color="primary" (click)="create()">
@@ -31,7 +32,7 @@
           {{shared.invoiceData.invoiceNumber}}
         </td>
         <td>Date<br>
-          <ion-label>{{date}}</ion-label>
+          <ion-label>{{date }}</ion-label>
         </td>
       </tr>
 
@@ -63,7 +64,7 @@
         </td>
         <td>
           Date<br>
-          {{shared.invoiceData.byersDate}}
+          {{shared.invoiceData.byersDate |date :  "dd/MM/y"}}
         </td>
       </tr>
       <tr>
@@ -115,7 +116,7 @@
           <td>{{item.subTotal}}</td>
         </tr>
       </ng-container>
-      <tr *ngIf="isSelectGST && isIntra">
+      <tr *ngIf="shared.isSelectGST && isIntra">
         <td></td>
         <td colspan="5">SGST</td>
         <td>{{invoiceAllData.totalSgstAmount}}</td>

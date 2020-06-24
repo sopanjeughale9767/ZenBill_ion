@@ -9,11 +9,11 @@ import { Router } from '@angular/router';
 })
 export class ShareddataService {
   currentOpenedModel: any = null;
-  public companyData: { [c: string]: any } = {};
+  // public companyData: { [c: string]: any } = {};
   public invoiceData: { [i: string]: any } = {};
   public customerData: { [r: string]: any } = {};
   public invoiceItems = new Array;
-
+public isLoginHidden=true;
   public customers = new Array;
   searchItem = new Array;
   showCard: boolean = false;
@@ -26,6 +26,17 @@ export class ShareddataService {
   isGSTCompany = false;
   isSelectGST = false;
   searchItems=[];
+  companyData={
+    companyName:''
+  ,companyEmail:''
+  ,companyGstNo:''
+  ,companyId:0
+  ,companyAddress:''
+  ,deliveryTerms:''
+  ,custMobile:''
+  ,pancard:''
+
+  };
   formData = {
     itemId:null,
     hsnCode: null,
@@ -82,7 +93,10 @@ isRouteByInvoice=false;
       debugger
       this.companyData = JSON.parse(localStorage.getItem('companyData'));
       (this.companyData.companyGstNo != '') ? this.isGSTCompany = true : this.isGSTCompany = false;
+      this.isLoginHidden=false;
     } else {
+      this.isLoginHidden=true;
+
       this.router.navigate(['/login']);
     }
   }catch(ex){
@@ -113,12 +127,12 @@ isRouteByInvoice=false;
     localStorage.setItem('companyData', JSON.stringify(this.companyData));
 
     localStorage.setItem('companyGstNo', this.companyData.companyGstNo);
-    localStorage.setItem('companyId', this.companyData.companyId);
+    localStorage.setItem('companyId', ''+this.companyData.companyId);
     this.IsCompanyGstCheck();
     // this.subscribePush();
   }
   logOut() {
-    
+    this.isLoginHidden=true;
     localStorage.removeItem('companyData');
     this.router.navigateByUrl('/login');
     // this.fb.logout();

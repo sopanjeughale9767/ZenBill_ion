@@ -63,9 +63,13 @@ export class RegisterPage implements OnInit {
             if (data.status == true) {
               localStorage.setItem('companyId',data.result[0].companyId);
               this.shared.companyDetails(data.result[0]);
+              this.shared.isLoginHidden=true;
               this.navCtrl.navigateRoot('/home1');
               this.shared.presentSuccessToast(data.message);
               console.log(data);
+            }
+            else{
+              this.shared.presentDangerToast("Mobile number exist");
             }
             if (data.success == 0) {
               // this.errorMessage = data.message;
