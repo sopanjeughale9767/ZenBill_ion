@@ -38,16 +38,22 @@ export class LoginPage implements OnInit {
       this.shared.hideLoading();
       if (data.status) {
         debugger 
+
         localStorage.setItem('companyData', JSON.stringify(data.result));
-        this.shared.companyData=data.result;
-    this.shared.isLoginHidden=false;
-        this.shared.presentSuccessToast(data.message);
+        this.shared.IsCompanyGstCheck();
+    //     this.shared.companyData=data.result;
+    // this.shared.isLoginHidden=false;
+    //     this.shared.presentSuccessToast(data.message);
         this.navCtrl.navigateRoot('/home1');
-      }else {
-        this.shared.presentDangerToast(data.message);
-      }
-    });
-    // })
+    //   }else {
+    //     this.shared.presentDangerToast(data.message);
+    //   }
+    // });
+    }else {
+          this.shared.presentDangerToast("INVALID LOGIN CREDENTIALS");
+        }
+  
+  })
   }
 
 

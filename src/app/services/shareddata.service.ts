@@ -88,7 +88,7 @@ isRouteByInvoice=false;
   hideLoading() {
     this.loading.dismiss().catch(() => { });
   }
-  IsCompanyGstCheck() {
+  IsCompanyGstCheck() { 
     try{
     if (localStorage.getItem('companyData') != null) {
       debugger
