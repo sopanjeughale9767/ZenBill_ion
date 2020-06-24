@@ -35,7 +35,8 @@ public isLoginHidden=true;
   ,deliveryTerms:''
   ,custMobile:''
   ,pancard:''
-
+,phNo:''
+,deliveryNote:''
   };
   formData = {
     itemId:null,
