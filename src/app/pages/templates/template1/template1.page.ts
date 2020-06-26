@@ -895,8 +895,8 @@ DescTotalTabl.push(
     if (this.platform.is('cordova')) {
       this.pdfObj.getBuffer((buffer) => {
         var blob = new Blob([buffer], { type: 'application/pdf' });
-        this.file.writeFile(this.file.dataDirectory, 'myletter.pdf', blob, { replace: true }).then(fileEntry => {
-          this.fileOpener.open(this.file.dataDirectory + 'myletter.pdf', 'application/pdf');
+        this.file.writeFile(this.file.dataDirectory,this.shared.invoiceData.paymentMode+"/"+ this.shared.invoiceData.invoiceNumber+'.pdf', blob, { replace: true }).then(fileEntry => {
+          this.fileOpener.open(this.file.dataDirectory + this.shared.invoiceData.paymentMode+"/"+ this.shared.invoiceData.invoiceNumber+'.pdf', 'application/pdf');
         })
       });
     } else {
