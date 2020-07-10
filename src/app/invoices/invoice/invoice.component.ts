@@ -65,7 +65,7 @@ export class InvoiceComponent implements OnInit {
     this.shared.invoiceData = data;
 let templateNumber='';
 
-    templateNumber = localStorage.getItem('number');
+    templateNumber = '1';//localStorage.getItem('number');
     if (parseInt(templateNumber) == 1) {
       this.router.navigateByUrl("/template1");
     } else {

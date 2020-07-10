@@ -157,7 +157,7 @@ debugger
           { text: element.quantity, bold: true, alignment: 'right' },
           { text: element.unit, bold: true, alignment: 'right' },
 
-          { text: element.itemPrice, alignment: 'right' },
+          { text: element.itemPrice.toFixed(2), alignment: 'right' },
           { text: element.discount, alignment: 'right' },
           { text: element.discountAmount.toFixed(2), alignment: 'right' },
           { text: element.subTotal.toFixed(2), bold: true, alignment: 'right' },
@@ -429,7 +429,7 @@ DescTotalTabl.push(
         {
           table: {
             style: 'colfontsize',
-            widths: ['*', 30, 50,30, 40,30, 70, 80],
+            widths: ['*', 40, 50,30, 40,30, 70, 80],
 
             body:
               temp
@@ -446,7 +446,7 @@ DescTotalTabl.push(
 
         {
           table: {
-            widths: ['*', 30, 50,30, 40,30, 70, 80],
+            widths: ['*', 40, 50,30, 40,30, 70, 80],
 
 
             body: DescTotalTabl
@@ -462,7 +462,7 @@ DescTotalTabl.push(
         },
         {
           table: {
-            widths: ['*', 30, 50,30, 40,30, 70, 80],
+            widths: ['*', 40, 50,30, 40,30, 70, 80],
             body: [
               [
                 { text: 'Total', style: 'boldalign', fillColor: 'whitesmoke' },
@@ -632,7 +632,7 @@ DescTotalTabl.push(
           { text: element.quantity, bold: true, alignment: 'right' },
           { text: element.unit, bold: true, alignment: 'right' },
 
-          { text: element.itemPrice, alignment: 'right' },
+          { text: element.itemPrice.toFixed(2), alignment: 'right' },
           { text: element.discount, alignment: 'right' },
           { text: element.discountAmount.toFixed(2), alignment: 'right' },
           { text: element.subTotal.toFixed(2), bold: true, alignment: 'right' },
@@ -811,7 +811,7 @@ DescTotalTabl.push(
           table: {
             widths: ['*'],
             body: [
-              [{ text: ['Amount Chargeble(in wards)\n INR  ', this.inword, '  Only'], style: 'tblheading' },
+              [{ text: ['Amount (in wards)\n INR  ', this.inword, '  Only'], style: 'tblheading' },
               ]
             ]
           },
