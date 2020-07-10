@@ -490,7 +490,7 @@ DescTotalTabl.push(
           table: {
             widths: ['*'],
             body: [
-              [{ text: ['Amount Chargeble(in wards)\n INR  ', this.inwords, '  Only'], style: 'tblheading' },
+              [{ text: ['Amount (in wards)\n INR  ', this.inwords, '  Only'], style: 'tblheading' },
               ]
             ]
           },
