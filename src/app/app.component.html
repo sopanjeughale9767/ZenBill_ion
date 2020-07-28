@@ -1,6 +1,9 @@
 <ion-app>
   <ion-split-pane>
     <ion-menu>
+     
+      <ion-menu-toggle auto-hide="false">
+     
       <ion-header>
         <ion-toolbar *ngIf="shared.isLoginHidden">
           <ion-avatar slot="start" class="user-avatar">
@@ -60,6 +63,8 @@
 
       </ng-container>
       </ion-header>
+
+      </ion-menu-toggle>
       <ion-content>
 
         <ion-list *ngIf="! shared.isLoginHidden">

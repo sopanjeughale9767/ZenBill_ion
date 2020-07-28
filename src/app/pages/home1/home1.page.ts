@@ -25,7 +25,6 @@ export class Home1Page implements OnInit {
   }
  
   onCustomer(bit) {
-    debugger
     if (bit == 1) {
       if (this.shared.isGSTCompany) {
         this.shared.isSelectGST = true;

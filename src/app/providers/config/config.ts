@@ -1,8 +1,8 @@
 export class ConfigProvider {
 
   //visual studio
-    // public yourSiteUrl: string = 'http://localhost:3001';
-    public yourSiteUrl: string = 'http://45.132.242.104:3001';
+     public yourSiteUrl: string = 'http://localhost:3001';
+    // public yourSiteUrl: string = 'http://45.132.242.104:3001';
 
 
     //nodejs

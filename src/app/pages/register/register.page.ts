@@ -12,6 +12,7 @@ import { FilePath } from '@ionic-native/file-path/ngx';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
+ 
   formData = {
     logo: '',
     companyName:'',
@@ -30,7 +31,7 @@ export class RegisterPage implements OnInit {
     confirmpassword: ''
   }
   errorMessage=''
-  logo=null
+  logo=null;
 
   constructor(
     public httpClient: HttpClient,
@@ -49,31 +50,30 @@ export class RegisterPage implements OnInit {
   register() {
     this.shared.presentLoading();
     this.errorMessage = '';
-   
-   
-      debugger
       this.formData.logo = this.logo;
       // if (this.logo == null) {
       //   this.shared.presentToast('Select logo.');
       //   this.shared.hideLoading();
       // } else {
+ 
+ this.formData.logo = "nothing";
 
-          this.httpClient.post(this.config.url + 'company/register', this.formData).subscribe((data: any) => {
+          this.httpClient.post(this.config.url + 'company/register', this.formData).subscribe((res: any) => {
             this.shared.hideLoading();
-            if (data.status == true) {
-              localStorage.setItem('companyId',data.result[0].companyId);
-              this.shared.companyDetails(data.result[0]);
+            if (res.status == true) {
+              localStorage.setItem('companyId',res.result[0].companyId);
+              this.shared.companyDetails(res.result[0]);
               this.shared.isLoginHidden=true;
               this.navCtrl.navigateRoot('/home1');
-              this.shared.presentSuccessToast(data.message);
-              console.log(data);
+              this.shared.presentSuccessToast(res.message);
+              console.log(res);
             }
             else{
               this.shared.presentDangerToast("Mobile number exist");
             }
-            if (data.success == 0) {
+            if (res.success == 0) {
               // this.errorMessage = data.message;
-              this.shared.presentDangerToast(data.message);
+              this.shared.presentDangerToast(res.message);
             }
           });
       

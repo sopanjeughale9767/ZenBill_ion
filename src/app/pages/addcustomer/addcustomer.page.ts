@@ -61,7 +61,7 @@ export class AddcustomerPage implements OnInit {
   }
 
   getCustomerDetails(custId) {
-    debugger
+    
     var dat: { [k: string]: any } = {};
     dat.custid=custId;
     dat.companyId=this.shared.companyData.companyId;
@@ -79,7 +79,15 @@ export class AddcustomerPage implements OnInit {
       this.shared.presentDangerToast(data.message);
     }
   });
-  }
+  
+
+
+
+
+
+
+}
+
 
   async addCustomerModal() {
     const modal = await this.modalController.create({

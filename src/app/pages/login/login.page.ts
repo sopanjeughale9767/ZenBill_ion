@@ -31,15 +31,12 @@ export class LoginPage implements OnInit {
   }
 
   login() {
-    debugger
     this.shared.presentLoading();
     this.errorMessage = '';
-    this.httpClient.post(this.config.url + 'login/login', this.formData).subscribe((data: any) => {
+    this.httpClient.post(this.config.url + 'company/login', this.formData).subscribe((res: any) => {
       this.shared.hideLoading();
-      if (data.status) {
-        debugger 
-
-        localStorage.setItem('companyData', JSON.stringify(data.result));
+      if (res.status) {
+        localStorage.setItem('companyData', JSON.stringify(res.data[0]));
         this.shared.IsCompanyGstCheck();
     //     this.shared.companyData=data.result;
     // this.shared.isLoginHidden=false;

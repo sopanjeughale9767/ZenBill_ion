@@ -49,6 +49,20 @@ public isLoginHidden=true;
     discount: 0
 
   }
+
+
+  customerFormData = {
+    custId: null,
+    custName: '',
+    custAddress: '',
+    custGstNumber: '',
+    custStateName: '',
+    custCode: '',
+    companyId:'',
+    custMobile:''
+  }
+
+
 isRouteByInvoice=false;
   constructor(
     public loading: LoadingController,
@@ -91,7 +105,7 @@ isRouteByInvoice=false;
   IsCompanyGstCheck() { 
     try{
     if (localStorage.getItem('companyData') != null) {
-      debugger
+       
       this.companyData = JSON.parse(localStorage.getItem('companyData'));
       (this.companyData.companyGstNo != '') ? this.isGSTCompany = true : this.isGSTCompany = false;
       this.isLoginHidden=false;
@@ -121,7 +135,7 @@ isRouteByInvoice=false;
     });
   }
   companyDetails(data) {
-    debugger
+     
     this.companyData = data;
 
     console.log(this.companyData);

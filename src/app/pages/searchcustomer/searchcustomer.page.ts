@@ -24,18 +24,18 @@ export class SearchcustomerPage implements OnInit {
     this.shared.presentLoading();
     var dat: { [k: string]: any } = {};
     // dat.custid = localStorage.getItem('custId');;
-    debugger
     dat.companyId = this.shared.companyData.companyId;
     dat.isSelectGST=this.shared.isSelectGST;
-    this.httpClient.post(this.config.url + 'customer/getAll', dat).subscribe((data: any) => {
+     
+    this.httpClient.post(this.config.url + 'customer/getAll/', dat).subscribe((res: any) => {
 
-      if (data.status == true) {
+      if (res.status == true) {
         this.isItemAvailable = true;
-        this.customers = data.result;
-        this.shared.presentSuccessToast(data.message);
+        this.customers = res.data;
+        this.shared.presentSuccessToast(res.message);
       } else {
-        this.shared.presentDangerToast(data.message);
-      }
+        this.shared.presentDangerToast(res.message);
+      } 
     });
   }
 
@@ -79,24 +79,43 @@ this.router.navigateByUrl('/addnewcustomer');// if data not load from localstora
   }
 
   getCustomerDetails(custId) {
-    debugger 
     var dat: { [k: string]: any } = {}; 
     dat.custId = custId;
     dat.companyId = this.shared.companyData.companyId;
     dat.isSelectGST=this.shared.isSelectGST;
 
-    this.httpClient.post(this.config.url + 'customer/getCustomer', dat).subscribe((data: any) => {
-      if (data.status == true) {
-        this.shared.customerData = data.result[0];
+    this.httpClient.post(this.config.url + 'customer/getCustomer', dat).subscribe((res: any) => {
+      if (res.status == true) {
+        this.shared.customerData= res.data[0];
         if(this.shared.isRouteByInvoice)
         this.router.navigateByUrl('/invoice');
 else
         this.router.navigateByUrl('/addcustomer');
-// this.shared.presentSuccessToast(data.message);
+// this.shared.presentSuccessToast(res.message);
       } else {
-        this.shared.presentDangerToast(data.message);
+        this.shared.presentDangerToast(res.message);
       }
     });
   }
 
+  updateCustomer(obj){
+  
+this.shared.customerFormData = Object.assign({}, obj);
+
+    this.router.navigateByUrl('/addnewcustomer');
+}
+
+ 
+  deleteCustomer(obj){
+    
+    this.httpClient.patch(this.config.url + 'customer/deleteCustomer/', obj ).subscribe((res: any) => {
+      if (res.status == true) {
+        this.ngOnInit();
+
+        this.shared.presentDangerToast(res.message);
+      } else {
+        this.shared.presentDangerToast(res.message);
+      }
+    });
+  }
 }

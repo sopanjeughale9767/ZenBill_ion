@@ -14,7 +14,6 @@ export class AuthGuardService {
   ) {
    }
   canActivate(route: ActivatedRouteSnapshot): boolean {
-    debugger
     // if (this.shared.companyData ) {
     //   this.router.navigate(['/login']);
     //   return false;
