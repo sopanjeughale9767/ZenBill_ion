@@ -6,8 +6,14 @@ import { ConfigProvider } from '../providers/config/config';
 import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
-})
+}) 
 export class ShareddataService {
+
+public customerDataIsShow: boolean;
+
+
+
+
   currentOpenedModel: any = null;
   // public companyData: { [c: string]: any } = {};
   public invoiceData: { [i: string]: any } = {};
@@ -26,6 +32,7 @@ public isLoginHidden=true;
   isGSTCompany = false;
   isSelectGST = false;
   searchItems=[];
+
   companyData={
     companyName:''
   ,companyEmail:''
@@ -38,6 +45,7 @@ public isLoginHidden=true;
 ,phNo:''
 ,deliveryNote:''
   };
+  
   formData = {
     itemId:null,
     hsnCode: null,
@@ -85,7 +93,7 @@ isRouteByInvoice=false;
     const loading = await this.loading.create({
       message: 'Loading',
       spinner: 'bubbles',
-      duration: 2000
+      duration: 1500
     });
     await loading.present();
   }
@@ -116,19 +124,21 @@ isRouteByInvoice=false;
     }
   }catch(ex){
     this.logOut();
-  }
+  } 
 
   }
   getItemsData(){
-    this.presentLoading();
+     
+    // this.presentLoading();
+     
     var dat: { [k: string]: any } = {};
     dat.companyId=this.companyData.companyId;
-    this.httpClient.post(this.config.url + 'itemMaster/getAll',dat).subscribe((data: any) => {
+    this.httpClient.post(this.config.url + 'itemMaster/getAll',dat).subscribe((res: any) => {
 
-      if (data.status == true) {
+      if (res.status == true) {
         // this.isItemAvailable = true;
-        this.searchItems = data.result;
-        this.presentSuccessToast(data.message);
+        this.searchItems = res.data;
+        // this.presentSuccessToast(res.message);
       } else {
         this.router.navigateByUrl('/additem');
       }

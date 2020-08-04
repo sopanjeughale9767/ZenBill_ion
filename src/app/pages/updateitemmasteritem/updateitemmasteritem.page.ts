@@ -26,18 +26,18 @@ export class UpdateitemmasteritemPage implements OnInit {
     public shared: ShareddataService,
     public router : Router
   ) {
-    debugger
+     
     this.id = parseInt(this.route.snapshot.paramMap.get('id'));
     if (this.id != null) {
       var dat: { [k: string]: any } = {};
       dat.itemId = this.id;
       dat.companyId = this.shared.companyData.companyId;
-      this.httpClient.post(this.config.url + 'itemmaster/getItemById',dat).subscribe((data: any) => {
-        if (data.status == true) {
-          this.formData = data.result[0];
-          this.shared.presentSuccessToast(data.message);
+      this.httpClient.post(this.config.url + 'itemmaster/getItemById',dat).subscribe((res: any) => {
+        if (res.status == true) {
+          this.formData = res.data[0];
+          // this.shared.presentSuccessToast(res.message);
         } else {
-          this.shared.presentDangerToast(data.message);
+          this.shared.presentDangerToast(res.message);
         }
       })
     }
@@ -48,15 +48,16 @@ export class UpdateitemmasteritemPage implements OnInit {
 
 
   updateItem() {
+     
     this.shared.presentLoading();
     // this.formData.custId = this.shared.customerData.custId;
-    this.httpClient.post(this.config.url + 'itemmaster/updateItemMaster', this.formData).subscribe((data: any) => {
-      if (data.status == true) {
-        this.shared.itemMastersData = data.result;
-        this.shared.presentSuccessToast("Item Added Successfully..!");
+    this.httpClient.post(this.config.url + 'itemmaster/updateItemMaster', this.formData).subscribe((res: any) => {
+      if (res.status == true) {
+        this.shared.itemMastersData = res.result;
+        this.shared.presentSuccessToast(res.message);
         this.router.navigateByUrl('/itemmaster');
       } else {
-        this.shared.presentDangerToast(data.message);
+        this.shared.presentDangerToast(res.message);
       }
     })
   }

@@ -32,12 +32,12 @@ export class ConfigService {
   public consumerSecret = '0b17d38b15566968718f34b934';
 
 //visual studio
-// public yourSiteUrl: string = 'http://localhost:3001';
-public yourSiteUrl: string = 'http://45.132.242.104:3001';
+public yourSiteUrl: string = 'http://localhost:3001';
+// public yourSiteUrl: string = 'http://45.132.242.104:3001';
 
 
 
-public url: string = this.yourSiteUrl + '/api/';
+public  url: string = this.yourSiteUrl + '/api/';
 public imgUrl: string = this.yourSiteUrl + "/";
 
 public loader = 'dots';
@@ -86,8 +86,8 @@ public loader = 'dots';
     return new Promise(resolve => {
       if (this.platform.is('cordova')) {
         this.httpNative.get(this.url + req, {}, nativeHeaders)
-          .then(data => {
-            let d = JSON.parse(data.data);
+          .then(res => {
+            let d = JSON.parse(res.data);
             //this.storeHttpData(request, d);
             resolve(d);
             //// console.log(data.status);
@@ -102,8 +102,8 @@ public loader = 'dots';
           });
       }
       else {
-        this.http.get(this.url + req, httpOptions).subscribe((data: any) => {
-          resolve(data);
+        this.http.get(this.url + req, httpOptions).subscribe((res: any) => {
+          resolve(res.data);
         }, (err) => {
           // console.log("Error : " + req);
           // console.log(err);
@@ -114,7 +114,7 @@ public loader = 'dots';
 
   // this is temprary used by rs
   postHttp(req, data){
-    
+    debugger
 
     return new Promise(resolve => {
       debugger

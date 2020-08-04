@@ -22,6 +22,7 @@ export class ItemmasterPage implements OnInit {
   }
 
   ngOnInit() {
+    
   }
 
   ionViewDidEnter(){
@@ -29,27 +30,28 @@ export class ItemmasterPage implements OnInit {
   };
   
   getItemMasterData() {
+     
     var dat: { [k: string]: any } = {};
     dat.custid=this.shared.customerData.custid;
     dat.companyId=this.shared.companyData.companyId;
-    this.httpClient.post(this.config.url + 'itemmaster/getAll',dat).subscribe((data: any) => {
-      if (data.status == true) {
-        this.shared.itemMastersData = data.result;
-        this.shared.presentSuccessToast(data.message);
+    this.httpClient.post(this.config.url + 'itemmaster/getAll',dat).subscribe((res: any) => {
+      if (res.status == true) {
+        this.shared.itemMastersData = res.data;
+        // this.shared.presentSuccessToast(res.message);
       }else{
-        this.shared.presentDangerToast(data.message);
+        this.shared.presentDangerToast(res.message);
       }
     })
   }
 
-  deleteItem(key) {
-    debugger
-    this.httpClient.delete(this.config.url + 'itemmaster/deleteItemMaster/' + key).subscribe((data: any) => {
-      if (data != null) {
-        this.shared.presentSuccessToast(data.message);
+  deleteItem(obj) {
+     
+    this.httpClient.post(this.config.url + 'itemmaster/deleteItemMaster/', obj).subscribe((res: any) => {
+      if (res.status == true) {
+        this.shared.presentSuccessToast(res.message);
         this.getItemMasterData();
       } else {
-        this.shared.presentDangerToast(data.message);
+        this.shared.presentDangerToast(res.message);
       }
     });
   }

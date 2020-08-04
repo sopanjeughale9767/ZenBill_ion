@@ -22,10 +22,11 @@ export class Home1Page implements OnInit {
   }
 
   ngOnInit() {
+ 
   }
  
   onCustomer(bit) {
-    if (bit == 1) {
+      if (bit == 1) {
       if (this.shared.isGSTCompany) {
         this.shared.isSelectGST = true;
         this.router.navigateByUrl('/searchcustomer');
@@ -39,3 +40,4 @@ export class Home1Page implements OnInit {
 
   }
 }
+ 

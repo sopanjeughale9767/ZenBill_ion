@@ -39,12 +39,10 @@ export class EditPage implements OnInit {
     public navCtrl : NavController
   ) { 
     debugger
-this.httpClient.get(this.config.url + 'company/getCompany/'+this.shared.companyData.companyId).subscribe((data:any)=>{
-  if(data.status){
-this.formData=data.result[0];
-  }else{
-    this.shared.presentDangerToast(data.message);
-  }
+this.httpClient.get(this.config.url + 'company/getCompany/'+this.shared.companyData.companyId).subscribe((res:any)=>{
+   
+this.formData=res.data[0];
+ 
 })
   }
 
@@ -57,31 +55,24 @@ this.formData=data.result[0];
   notShow(){
     this.show = false;
   }
-  register() {
+  update() {
     this.shared.presentLoading();
-   
-   
-      debugger
       this.formData.logo = this.logo;
       // if (this.logo == null) {
       //   this.shared.presentToast('Select logo.');
       //   this.shared.hideLoading();
       // } else {
-
-          this.httpClient.post(this.config.url + 'company/update', this.formData).subscribe((data: any) => {
+            this.httpClient.post(this.config.url + 'company/update', this.formData).subscribe((res: any) => {
             this.shared.hideLoading();
-            if (data.status == true) {
-              debugger
-              localStorage.setItem('companyId',data.result.companyId);
-              
-              this.shared.companyDetails(data.result);
+            if (res.status == true) {
+              localStorage.setItem('companyId',res.data.companyId);
+              this.shared.companyDetails(res.result);
               this.shared.isLoginHidden=true;
               this.navCtrl.navigateRoot('/home1');
-              this.shared.presentSuccessToast(data.message);
+              this.shared.presentSuccessToast(res.message);
             }
-            if (data.success == 0) {
-              // this.errorMessage = data.message;
-              this.shared.presentDangerToast(data.message);
+            if (res.success == 0) {
+              this.shared.presentDangerToast(res.message);
             }
           });
       

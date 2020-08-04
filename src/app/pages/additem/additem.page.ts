@@ -40,16 +40,16 @@ this.formData;
     this.shared.presentLoading();
     this.formData.custId = this.shared.customerData.custId;
     this.formData.companyId =this.shared.companyData.companyId;
-    this.httpClient.post(this.config.url + 'itemmaster/addItemMaster', this.formData).subscribe((data: any) => {
-      if (data.status == true) {
-        this.shared.presentSuccessToast(data.message);
+    this.httpClient.post(this.config.url + 'itemmaster/addItemMaster', this.formData).subscribe((res: any) => {
+      if (res.status == true) {
+        this.shared.presentSuccessToast(res.message);
         this.shared.getItemsData();
         this.router.navigateByUrl('/searchitem');
       } else {
-        this.shared.presentDangerToast(data.message);
+        this.shared.presentDangerToast(res.message);
       }
     })
-  }
+  } 
 
-
+ 
 }

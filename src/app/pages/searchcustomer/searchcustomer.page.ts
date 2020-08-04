@@ -3,6 +3,7 @@ import { ShareddataService } from 'src/app/services/shareddata.service';
 import { HttpClient } from '@angular/common/http';
 import { ConfigProvider } from 'src/app/providers/config/config';
 import { Router } from '@angular/router';
+import { concat } from 'rxjs';
 
 @Component({
   selector: 'app-searchcustomer',
@@ -10,65 +11,93 @@ import { Router } from '@angular/router';
   styleUrls: ['./searchcustomer.page.scss'],
 })
 export class SearchcustomerPage implements OnInit {
-  customers: any;
-  isItemAvailable: boolean = false;
 
+  public customers: Array<any>;
+
+  isItemAvailable: boolean = false;
+  page = 1;
+  limit = 10;
   constructor(
     public shared: ShareddataService,
     public httpClient: HttpClient,
     public config: ConfigProvider,
-    public router: Router
+    public router: Router,
+
   ) { }
 
   ngOnInit() {
-    this.shared.presentLoading();
+      
+    // this.shared.presentLoading();
     var dat: { [k: string]: any } = {};
     // dat.custid = localStorage.getItem('custId');;
     dat.companyId = this.shared.companyData.companyId;
-    dat.isSelectGST=this.shared.isSelectGST;
-     
-    this.httpClient.post(this.config.url + 'customer/getAll/', dat).subscribe((res: any) => {
-
+    dat.isSelectGST = this.shared.isSelectGST;
+    this.httpClient.post(this.config.url + 'customer/getAll/' + '?' + 'page=' + this.page + '&' + 'limit=' + this.limit, dat).subscribe((res: any) => {
       if (res.status == true) {
         this.isItemAvailable = true;
-        this.customers = res.data;
-        this.shared.presentSuccessToast(res.message);
-      } else {
-        this.shared.presentDangerToast(res.message);
-      } 
+        if (this.page > 1) {
+          var tempObj = res.data;
+          this.customers = this.customers.concat(tempObj);
+        }
+        else {
+          this.customers = res.data;
+        }
+      }
+      
     });
   }
 
-  getCustomer(ev: any) {
+  doRefresh(event) {
+    this.page = 1;
+    this.limit = 10;
+   this.ngOnInit();
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 500);
+  }
+
+
+
+
+  loadNextCustomer(event) {
+ 
+    this.page++;
+
+    setTimeout(() => {
+    this.ngOnInit();
+      event.target.complete();
+    }, 500);
+  }
+  searchCustomer(ev: any) {
 
     const val = ev.target.value;
     if (val.replace(/\s/g, "").length < 1) {
       var dat: { [k: string]: any } = {};
       // dat.custid = localStorage.getItem('custId');;
-      dat.companyId =this.shared.companyData.companyId;
-    dat.isSelectGST=this.shared.isSelectGST;
-if(dat.companyId ==null)
-this.router.navigateByUrl('/addnewcustomer');// if data not load from localstorage of companyData then redirect to unother page
-      this.httpClient.post(this.config.url + 'customer/getAll', dat).subscribe((data: any) => {
-        this.customers = data.result;
-        if (data.status == true) {
-         
+      dat.companyId = this.shared.companyData.companyId;
+      dat.isSelectGST = this.shared.isSelectGST;
+      if (dat.companyId == null)
+        this.router.navigateByUrl('/addnewcustomer');// if data not load from localstorage of companyData then redirect to unother page
+      this.httpClient.post(this.config.url + 'customer/getAll' + '?' + 'page=' + this.page + '&' + 'limit=' + this.limit, dat).subscribe((res: any) => {
+        if (res.status == true) {
+          this.customers = res.data;
         } else {
           this.router.navigateByUrl('/addnewcustomer');
         }
       });
-    } else {
+    }
+     else {
       // this.shared.presentLoading();
       var dat: { [k: string]: any } = {};
       dat.key = val.toString()
-      dat.companyId =this.shared.companyData.companyId;
-    dat.isSelectGST=this.shared.isSelectGST;
-
-      this.httpClient.post(this.config.url + 'customer/searchCustomer', dat).subscribe((data: any) => {
-        if (data.status == true) {
+      dat.companyId = this.shared.companyData.companyId;
+      dat.isSelectGST = this.shared.isSelectGST;
+      this.httpClient.post(this.config.url + 'customer/searchCustomer', dat).subscribe((res: any) => {
+        if (res.status == true) {
           this.isItemAvailable = true;
-          this.customers = data.result;
-          console.log(data);
+          this.customers = res.data;
         } else {
           this.isItemAvailable = false;
           // this.shared.presentDangerToast("data.message");
@@ -79,43 +108,48 @@ this.router.navigateByUrl('/addnewcustomer');// if data not load from localstora
   }
 
   getCustomerDetails(custId) {
-    var dat: { [k: string]: any } = {}; 
+    var dat: { [k: string]: any } = {};
     dat.custId = custId;
     dat.companyId = this.shared.companyData.companyId;
-    dat.isSelectGST=this.shared.isSelectGST;
+    dat.isSelectGST = this.shared.isSelectGST;
 
     this.httpClient.post(this.config.url + 'customer/getCustomer', dat).subscribe((res: any) => {
       if (res.status == true) {
-        this.shared.customerData= res.data[0];
-        if(this.shared.isRouteByInvoice)
-        this.router.navigateByUrl('/invoice');
-else
-        this.router.navigateByUrl('/addcustomer');
-// this.shared.presentSuccessToast(res.message);
+        this.shared.customerData = res.data[0];
+        if (this.shared.isRouteByInvoice)
+          this.router.navigateByUrl('/invoice');
+        else
+          this.router.navigateByUrl('/addcustomer');
+        // this.shared.presentSuccessToast(res.message);
       } else {
         this.shared.presentDangerToast(res.message);
       }
     });
   }
 
-  updateCustomer(obj){
-  
-this.shared.customerFormData = Object.assign({}, obj);
-
+  updateCustomer(obj) {
+    this.shared.customerDataIsShow = true;
+    this.shared.customerFormData = Object.assign({}, obj);
     this.router.navigateByUrl('/addnewcustomer');
-}
+  }
 
- 
-  deleteCustomer(obj){
-    
-    this.httpClient.patch(this.config.url + 'customer/deleteCustomer/', obj ).subscribe((res: any) => {
+
+  deleteCustomer(obj) {
+
+    this.httpClient.patch(this.config.url + 'customer/deleteCustomer/', obj).subscribe((res: any) => {
       if (res.status == true) {
         this.ngOnInit();
 
-        this.shared.presentDangerToast(res.message);
+        this.shared.presentSuccessToast(res.message);
       } else {
         this.shared.presentDangerToast(res.message);
       }
     });
+  }
+
+
+  addCustommer(){
+    this.shared.customerDataIsShow = false;
+    this.router.navigateByUrl("/addnewcustomer");
   }
 }

@@ -34,10 +34,10 @@
           <td>{{item.unit}}</td>
           <td>{{item.gst}}</td>
           <!-- <td *ngIf="isIntra">{{item.gst}}/2</td> -->
-
+ 
           <!-- <td *ngIf="!isIntra">{{item.gst}}</td> -->
           <td>
-            <ion-icon slot="icon-only" name="trash" style="color: red;" (click)="deleteItem(item.itemId)"></ion-icon>&nbsp;&nbsp;
+            <ion-icon slot="icon-only" name="trash" style="color: red;" (click)="deleteItem(item)"></ion-icon>&nbsp;&nbsp;
               <ion-icon slot="icon-only" name="create" routerLink="/updateitemmasteritem/{{item.itemId}}"></ion-icon>
           </td>
         </tr>

@@ -47,10 +47,10 @@ export class AddproductPage implements OnInit {
   }
 
 
-
+ 
 
   onSearchChange(ev: any) {
-    debugger
+     
     const val = ev.target.value;
     if (val.replace(/\s/g, "").length < 1) { 
       var dat: { [k: string]: any } = {};
@@ -101,7 +101,7 @@ export class AddproductPage implements OnInit {
   } 
 
   addProduct() {
-    debugger
+     
     if(this.shared.itemData.filter(x => x.itemId == this.shared.formData.itemId).length!=0){
       const index = this.shared.itemData.indexOf(this.shared.formData, 0);
       // delete this.shared.itemData[key];

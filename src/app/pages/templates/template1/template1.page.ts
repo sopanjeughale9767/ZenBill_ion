@@ -88,13 +88,10 @@ public numToWord: NumberToWordsPipe
       }
     })
 
-    this.config.getHttp('item/getItem/' + this.shared.invoiceData.invoiceId).then((data: any) => {
-      if (data.status == true) {
-        this.shared.invoiceItems = data.result;
-        console.log(this.shared.invoiceItems);
-      } else {
-        this.shared.presentDangerToast(data.message);
-      }
+    this.config.getHttp('item/getItem/' + this.shared.invoiceData.invoiceId).then((res: any) => {
+     
+        this.shared.invoiceItems = res;
+      
     })
     this.date = this.datepipe.transform(new Date(), 'dd/MM/y');
     // this.gstBit = parseInt(localStoƒƒrage.getItem('gstBit'));

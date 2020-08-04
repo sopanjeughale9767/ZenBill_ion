@@ -48,6 +48,7 @@ export class RegisterPage implements OnInit {
   }
 
   register() {
+    debugger
     this.shared.presentLoading();
     this.errorMessage = '';
       this.formData.logo = this.logo;
@@ -61,12 +62,11 @@ export class RegisterPage implements OnInit {
           this.httpClient.post(this.config.url + 'company/register', this.formData).subscribe((res: any) => {
             this.shared.hideLoading();
             if (res.status == true) {
-              localStorage.setItem('companyId',res.result[0].companyId);
-              this.shared.companyDetails(res.result[0]);
+              // localStorage.setItem('companyId',res.data.insertId);
+              // this.shared.companyDetails(res.result);
               this.shared.isLoginHidden=true;
               this.navCtrl.navigateRoot('/home1');
               this.shared.presentSuccessToast(res.message);
-              console.log(res);
             }
             else{
               this.shared.presentDangerToast("Mobile number exist");

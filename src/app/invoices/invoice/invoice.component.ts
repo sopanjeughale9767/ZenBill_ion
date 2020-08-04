@@ -23,7 +23,7 @@ export class InvoiceComponent implements OnInit {
     this.shared.presentLoading(); 
     var dat: { [k: string]: any } = {};
     // dat.custid = localStorage.getItem('custId');;
-    debugger
+     
     dat.companyId = this.shared.companyData.companyId;
     dat.custId=this.shared.customerData.custId;
     this.httpClient.post(this.config.url + 'invoice/getAll', dat).subscribe((data: any) => {

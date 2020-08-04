@@ -23,53 +23,51 @@ export class SearchitemPage implements OnInit, OnDestroy {
     public config : ConfigProvider,
     public router : Router
   ) { 
-    debugger
   this.shared.getItemsData();
   }
 
   ngOnInit() {
-  debugger
+
   }
 ngOnDestroy(){
-
 }
   onSearchChange(ev: any) {
-    debugger
     const val = ev.target.value;
     if (val.replace(/\s/g, "").length < 1) {
       var dat: { [k: string]: any } = {};
       dat.key = val.toString()
       dat.companyId = this.shared.companyData.companyId;
-      this.httpClient.post(this.config.url + 'itemMaster/getAll',dat).subscribe((data: any) => {
-        if (data.status == true) {
-          this.shared.searchItems = data.result;
+      this.httpClient.post(this.config.url + 'itemMaster/getAll',dat).subscribe((res: any) => {
+        if (res.status == true) {
+          this.shared.searchItems = res.data;
           // this.isItemAvailable = true;
-          this.shared.presentSuccessToast("Success..");
+          // this.shared.presentSuccessToast("Success..");
         } else {
           this.shared.presentDangerToast("Failed..");
         }
       });
     }
     else {
-      this.shared.presentLoading();
+       
+      // this.shared.presentLoading();
       var dat: { [k: string]: any } = {};
       dat.key = val.toString()
       dat.companyId = this.shared.companyData.companyId;
-      this.httpClient.post(this.config.url + 'itemMaster/searchItemMaster' ,dat).subscribe((data: any) => {
-        if (data.status == true) {
+      this.httpClient.post(this.config.url + 'itemMaster/searchItemMaster' ,dat).subscribe((res: any) => {
+        if (res.status == true) {
           // this.isItemAvailable = true;
-          this.shared.presentSuccessToast(data.message);
-          this.shared.searchItems = data.result;
+          // this.shared.presentSuccessToast(data.message);
+          this.shared.searchItems = res.data;
         } else {
           // this.isItemAvailable = false;
-          this.shared.presentDangerToast(data.message);
+          // this.shared.presentDangerToast(res.message);
         }
       });
     }
   }
  
   getItemDetails(item) {
-    
+     
     this.shared.formData =item;
     this.shared.isSearch = true;
     this.router.navigateByUrl('/addproduct');

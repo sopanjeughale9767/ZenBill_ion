@@ -31,26 +31,23 @@ export class LoginPage implements OnInit {
   }
 
   login() {
-    this.shared.presentLoading();
+    // this.shared.presentLoading();
     this.errorMessage = '';
     this.httpClient.post(this.config.url + 'company/login', this.formData).subscribe((res: any) => {
-      this.shared.hideLoading();
-      if (res.status) {
+      // this.shared.hideLoading();
+      if (res.status == true) {
         localStorage.setItem('companyData', JSON.stringify(res.data[0]));
         this.shared.IsCompanyGstCheck();
-    //     this.shared.companyData=data.result;
-    // this.shared.isLoginHidden=false;
-    //     this.shared.presentSuccessToast(data.message);
+        //  this.shared.companyData=data.result;
+        // this.shared.isLoginHidden=false;
+        this.shared.presentSuccessToast(res.message);
         this.navCtrl.navigateRoot('/home1');
-    //   }else {
-    //     this.shared.presentDangerToast(data.message);
-    //   }
-    // });
-    }else {
-          this.shared.presentDangerToast("INVALID LOGIN CREDENTIALS");
-        }
-  
-  })
+      }
+       else {
+        this.shared.presentDangerToast(res.message);
+      }
+
+    })
   }
 
 

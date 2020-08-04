@@ -82,7 +82,7 @@
               pattern="^[1-9][0-9]{9}$"></ion-input>
           </ion-item>
 
-          <ion-item>
+          <!-- <ion-item>
             <ion-text>
               <h1>*</h1>
             </ion-text>
@@ -93,7 +93,7 @@
             <ion-icon slot="end" name="eye-off" *ngIf="show" (click)="notShow()"></ion-icon>
              <ion-input type="text" placeholder="Password" name="password" [(ngModel)]="formData.password"
              required *ngIf="show"></ion-input>
-          </ion-item>
+          </ion-item> -->
 
 
           <ion-item>
@@ -113,7 +113,7 @@
 
     <ion-row>
       <ion-col>
-        <ion-button expand="block" color="secondary" type="submit" [disabled]="!loginForm.form.valid">{{'Register'}}
+        <ion-button expand="block" color="secondary" (click)="update()" [disabled]="!loginForm.form.valid">update
         </ion-button>
       </ion-col>
     </ion-row>

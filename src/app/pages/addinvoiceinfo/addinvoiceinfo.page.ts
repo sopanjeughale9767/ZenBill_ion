@@ -15,7 +15,7 @@ export class AddinvoiceinfoPage implements OnInit {
 
   formData = {
     companyId:this.shared.companyData.companyId,
-    invoiceNumber: '',
+    invoiceNumber: null,
     invoiceDate: '',
     custId: null,
     deliveryTerms: '',
@@ -50,30 +50,30 @@ export class AddinvoiceinfoPage implements OnInit {
   }
 
   ngOnInit() {
-  }
+  } 
 
   onChange(paymentMode) {
+
     debugger
     var dat: { [k: string]: any } = {};
     dat.companyId = this.shared.companyData.companyId;
     dat.paymentMode = paymentMode;
 
-    this.config.postHttp('invoice/getInvoiceById/0', dat).then((result: any) => {
+    this.httpClient.get(this.config.url +'invoice/getInvoiceById/0', dat).subscribe((res: any) => {
+ 
+  this.shared.invoiceNumber = this.formData.invoiceNumber = (res.result[0].total + 1);
 
-      this.shared.invoiceNumber = this.formData.invoiceNumber = (result.result[0].invoiceNumber + 1);
-
-      if (this.shared.invoiceNumber==1 ) {
-        this.isStart = false;
-      }
-      // this.formData.invoiceDate = this.datepipe.transform(new Date(), 'dd-mm-yyyy');
+ 
+  // this.formData.invoiceDate = this.datepipe.transform(new Date(), 'dd-mm-yyyy');
+ 
+if (this.shared.invoiceNumber==1 ) {
+  this.isStart = false;
+}
     });
 
   }
   saveInvoice() {
     debugger
-
-    //
-
     if (this.shared.isSelectGST) {
       debugger
       if (this.shared.customerData.custGstNumber.substring(0, 2) == this.shared.companyData.companyGstNo.substring(0, 2)) {
@@ -97,7 +97,7 @@ export class AddinvoiceinfoPage implements OnInit {
     this.formData.custId = this.shared.customerData.custId;
     debugger
     this.httpClient.post(this.config.url + 'invoice/saveInvoice', this.formData).subscribe((data: any) => {
-      if (data.status == true) {
+      if (data.status == true) { 
         this.shared.invoiceData = data.result[0];
 
         this.shared.presentSuccessToast(data.message);

@@ -3,8 +3,8 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title  *ngIf="formData.custId == null">Add New Customer</ion-title>
-    <ion-title  *ngIf="formData.custId != null">Update Customer</ion-title>
+    <ion-title  *ngIf="shared.customerFormData.custId == null">Add New Customer</ion-title>
+    <ion-title  *ngIf="shared.customerFormData.custId != null">Update Customer</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -14,45 +14,45 @@
       <ion-item>
         <ion-label position="floating">Full Name <ion-text color="danger">*</ion-text>
         </ion-label>
-        <ion-input type="text" name="custName" [(ngModel)]="formData.custName"  ></ion-input>
+        <ion-input type="text" name="custName" [(ngModel)]="shared.customerFormData.custName"  ></ion-input>
         <!-- <ion-icon slot="end" name="search" (click)="onSearch()"></ion-icon> -->
 
       </ion-item>
       <ion-item>
         <ion-label position="floating"> Mobile Number <ion-text color="danger">*</ion-text>
         </ion-label>
-        <ion-input name="custMobile" type="number" [(ngModel)]="formData.custMobile"
+        <ion-input name="custMobile" type="number" [(ngModel)]="shared.customerFormData.custMobile"
          minlength="10" maxlength="10"          pattern="^[1-9][0-9]{9}$"  ></ion-input> 
       </ion-item>
 
       <ion-item>
         <ion-label position="floating"> Address <ion-text color="danger">*</ion-text>
         </ion-label>
-        <ion-input name="custAddress" [(ngModel)]="formData.custAddress" type="text"   ></ion-input>
+        <ion-input name="custAddress" [(ngModel)]="shared.customerFormData.custAddress" type="text"   ></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="floating"> GST Number <ion-text *ngIf="shared.isSelectGST" color="danger">*</ion-text>
         </ion-label>
-        <ion-input name="custGstNumber" type="text" [(ngModel)]="formData.custGstNumber"
+        <ion-input name="custGstNumber" type="text" [(ngModel)]="shared.customerFormData.custGstNumber"
             pattern="\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}" minlength="15" maxlength="15" [required]="shared.isSelectGST"></ion-input>  
       </ion-item>
 
       <ion-item>
         <ion-label position="floating">State Name <ion-text color="danger">*</ion-text>
         </ion-label>
-        <ion-input name="custStateName" type="text" [(ngModel)]="formData.custStateName" required></ion-input>
+        <ion-input name="custStateName" type="text" [(ngModel)]="shared.customerFormData.custStateName" required></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="floating">Pincode / Postal code <ion-text color="danger">*</ion-text>
         </ion-label>
-        <ion-input name="custCode" type="number" [(ngModel)]="formData.custCode" pattern="^[1-9][0-9]{5}$" minlength="6"
+        <ion-input name="custCode" type="number" [(ngModel)]="shared.customerFormData.custCode" pattern="^[1-9][0-9]{5}$" minlength="6"
           maxlength="6" required></ion-input>
       </ion-item>
       <ion-button expand="block" type="submit" [disabled]="!Form.form.valid" >
-        <ion-text style="color: white; font-weight: bold;" *ngIf="formData.custId == null">Add</ion-text>
-        <ion-text style="color: white; font-weight: bold;" *ngIf="formData.custId != null">Update</ion-text>
+        <ion-text style="color: white; font-weight: bold;" *ngIf="shared.customerFormData.custId == null">Add</ion-text>
+        <ion-text style="color: white; font-weight: bold;" *ngIf="shared.customerFormData.custId != null">Update</ion-text>
       </ion-button>
 
 

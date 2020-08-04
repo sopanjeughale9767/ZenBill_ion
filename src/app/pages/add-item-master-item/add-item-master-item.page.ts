@@ -18,7 +18,6 @@ export class AddItemMasterItemPage implements OnInit {
     unit: '',
     gst: '',
     per:'',
-    custId: null,
     companyId: null
   }
   constructor(
@@ -30,13 +29,12 @@ export class AddItemMasterItemPage implements OnInit {
   ) {
 
   }
-
+ 
   ngOnInit() {
 
   }
   addItem() {
     this.shared.presentLoading();
-    this.formData.custId = this.shared.customerData.custId;
     this.formData.companyId = this.shared.companyData.companyId;
     this.httpClient.post(this.config.url + 'itemmaster/addItemMaster', this.formData).subscribe((data: any) => {
       if (data.status == true) {
@@ -45,7 +43,6 @@ export class AddItemMasterItemPage implements OnInit {
       } else {
         this.shared.presentDangerToast(data.message);
       }
-    })
+    });
   }
-
 }
