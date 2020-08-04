@@ -53,7 +53,7 @@ export class AddinvoiceinfoPage implements OnInit {
   } 
 
   onChange(paymentMode) {
-
+ 
     debugger
     var dat: { [k: string]: any } = {};
     dat.companyId = this.shared.companyData.companyId;
