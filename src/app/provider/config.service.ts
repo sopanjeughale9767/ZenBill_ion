@@ -118,7 +118,7 @@ public loader = 'dots';
 
     return new Promise(resolve => {
       debugger
-        this.http.post(this.url + req, data).subscribe((data: any) => {
+        this.http.get(this.url + req, data).subscribe((data: any) => {
           resolve(data);
         }, (err) => {
           // console.log("Error : " + req);

@@ -71,7 +71,7 @@ ngOnDestroy(){
     this.shared.formData =item;
     this.shared.isSearch = true;
     this.router.navigateByUrl('/addproduct');
-    
+     
     // this.shared.presentLoading();
     // var dat: { [k: string]: any } = {};
     // dat.itemId = itemId;

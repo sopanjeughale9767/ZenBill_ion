@@ -71,9 +71,8 @@ public numToWord: NumberToWordsPipe
     var dat: { [k: string]: any } = {};
     dat.custId = this.shared.customerData.custId;
     dat.companyId = this.shared.companyData.companyId;
-
-    this.config.postHttp('invoice/getInvoiceById/' + this.shared.invoiceData.invoiceId,dat).then((data: any) => {
-      
+    debugger
+     this.config.postHttp('invoice/getInvoiceById/' + this.shared.invoiceData.invoiceId,dat).then((data: any) => {
       if (data.status == true) {
         this.shared.invoiceData = data.result[0];
         this.invoiceAllData = data.result[0];
@@ -82,7 +81,7 @@ public numToWord: NumberToWordsPipe
         this.inwords = this.numToWord.transform(this.invoiceAllData.totalAmountAfterTax);//  this.numToWord.transform(this.invoiceAllData.totalAmountAfterTax |);
         this.inword =  this.numToWord.transform(this.invoiceAllData.subTotal);
         this.taxAmount =  this.numToWord.transform(this.invoiceAllData.totalTaxableAmount);
-
+console.log(this.invoiceAllData);
       } else {
         this.shared.presentDangerToast(data.message);
       }

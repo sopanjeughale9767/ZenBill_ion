@@ -50,7 +50,7 @@ export class AddproductPage implements OnInit {
  
 
   onSearchChange(ev: any) {
-     
+     debugger
     const val = ev.target.value;
     if (val.replace(/\s/g, "").length < 1) { 
       var dat: { [k: string]: any } = {};

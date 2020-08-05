@@ -31,7 +31,7 @@ export class InvoiceComponent implements OnInit {
       if (data.status == true) {
         this.isItemAvailable = true;
         this.invoices = data.result;
-        this.shared.presentSuccessToast(data.message);
+        // this.shared.presentSuccessToast(data.message);
       } else {
         this.shared.presentDangerToast(data.message);
       }
