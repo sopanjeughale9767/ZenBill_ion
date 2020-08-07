@@ -24,6 +24,10 @@ export class Home1Page implements OnInit {
   ngOnInit() {
  
   }
+
+  report(){
+    this.router.navigateByUrl("/reportmethod");
+  }
  
   onCustomer(bit) {
       if (bit == 1) {

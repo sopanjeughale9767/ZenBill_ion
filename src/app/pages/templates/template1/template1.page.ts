@@ -56,7 +56,7 @@ public numToWord: NumberToWordsPipe
   }
 
   ngOnInit() {
-
+console.log(this.shared.customerData);
         debugger
         // Declaration part
         this.CustGSTNumber = this.shared.customerData.custGstNumber;

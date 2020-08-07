@@ -53,7 +53,8 @@ export class AppComponent implements OnDestroy {
           title: 'Template4',
           url: '/home',
           icon: 'done-all'
-        }
+        },
+       
       ]
     },
     // {

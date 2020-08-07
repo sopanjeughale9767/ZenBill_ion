@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="shared.dateWiseIsShow == true">Date wise report</ion-title>
+    <ion-title *ngIf="shared.betweenDateWiseIsShow == true">Between Date report</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-item *ngIf="shared.dateWiseIsShow == true" class="ion-no-padding">
+
+  <ion-datetime pickerFormat="DD/MM/YYYY" placeholder="select date" max="2050-12-31" (ionChange)="getInvByDate(date)"
+    [(ngModel)]="date"></ion-datetime>
+
+</ion-item>
+<ion-content>
+
+  <ion-card *ngIf="shared.betweenDateWiseIsShow == true" no-margin>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="5.5">
+          <ion-item lines="none">
+            <ion-datetime pickerFormat="DD/MM/YYYY" placeholder="Start Date" max="2050-12-31" name="sDate"
+              [(ngModel)]="datesForm.sDate" (ionChange)="submit()"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col size="1">
+
+          <ion-label>To</ion-label>
+
+        </ion-col>
+        <ion-col size="5.5">
+          <ion-item lines="none">
+            <ion-datetime pickerFormat="DD/MM/YYYY" placeholder="End Date" max="2050-12-31" name="eDate"
+              [(ngModel)]="datesForm.eDate" (ionChange)="submit()"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+  </ion-card>
+
+  <div *ngIf="tblIsShow == true" class="printable-content">
+    <table width="100%">
+      <tr class="bottom">
+        <th>Invoice No.</th>
+        <th>Customer Name</th>
+        <th>Date</th>
+        <th>Total</th>
+        <th> </th>
+      </tr>
+      <ng-container *ngFor="let item of invoicData">
+        <tr>
+          <td>INV/{{item.paymentMode}}/{{item.invoiceNumber}}</td>
+          <td> {{item.custName}} </td>
+          <td>{{item.invoiceDate}}</td>
+          <td> {{item.subTotal}} </td>
+          <td>
+            <ion-icon slot="icon-only" name="eye" style="color: rgb(47, 0, 255);" (click)="invociceDetails(item)">
+            </ion-icon>&nbsp;&nbsp;
+
+          </td>
+        </tr>
+      </ng-container>
+    </table>
+  </div>
+</ion-content>

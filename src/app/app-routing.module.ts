@@ -26,7 +26,10 @@ const routes: Routes = [
   { path: 'searchcustomer', loadChildren: './pages/searchcustomer/searchcustomer.module#SearchcustomerPageModule',canActivate: [AuthGuardService] },
   { path: 'searchitem', loadChildren: './pages/searchitem/searchitem.module#SearchitemPageModule' ,canActivate: [AuthGuardService]},
   { path: 'edit', loadChildren: './pages/edit/edit.module#EditPageModule',canActivate: [AuthGuardService] },
-  { path: 'invoice', component: InvoiceComponent,canActivate: [AuthGuardService] },
+  { path: 'invoice', component: InvoiceComponent,canActivate: [AuthGuardService] },  { path: 'report', loadChildren: './pages/report/report.module#ReportPageModule' },
+  { path: 'salesreport', loadChildren: './pages/salesreport/salesreport.module#SalesreportPageModule' },
+  { path: 'reportmethod', loadChildren: './pages/reportmethod/reportmethod.module#ReportmethodPageModule' },
+
 
 ];
 

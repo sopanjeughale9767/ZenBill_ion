@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>select report type</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card   class="card" button (click)="report(shared.dateWiseIsShow = true, shared.betweenDateWiseIsShow = false)">
+    <ion-text>date wise report</ion-text>
+  </ion-card>
+  <ion-card class="card" button (click)="report(shared.betweenDateWiseIsShow = true, shared.dateWiseIsShow = false)">
+    <ion-text>between dates wise report</ion-text>
+  </ion-card>
+</ion-content>

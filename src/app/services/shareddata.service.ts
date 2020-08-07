@@ -10,7 +10,8 @@ import { Router } from '@angular/router';
 export class ShareddataService {
 
 public customerDataIsShow: boolean;
-
+public dateWiseIsShow : boolean = false;
+public betweenDateWiseIsShow: boolean = false;
 
 
 
