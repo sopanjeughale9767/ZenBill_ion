@@ -33,7 +33,8 @@ export class AddinvoiceinfoPage implements OnInit {
     totalSgstAmount: 0,
     totalCgstAmount: 0,
     totalIgstAmount: 0,
-    note: ''
+    note: '',
+    custName: ''
   }
   gst: string;
   templateNumber: string;
@@ -43,7 +44,7 @@ export class AddinvoiceinfoPage implements OnInit {
     public httpClient: HttpClient,
     public config: ConfigService,
     public router: Router,
-    public datepipe: DatePipe
+    public datepipe: DatePipe,
   ) {
     // debugger
 
@@ -73,7 +74,7 @@ export class AddinvoiceinfoPage implements OnInit {
 
   }
   saveInvoice() {
-    debugger
+    debugger 
     this.shared.customerData;
     this.shared.customerFormData;
     if (this.shared.isSelectGST) {
@@ -97,6 +98,11 @@ export class AddinvoiceinfoPage implements OnInit {
     this.formData.items = this.shared.itemData;
 
     this.formData.custId = this.shared.customerData.custId;
+    this.formData.custName = this.shared.customerData.custName;
+
+    this.formData.invoiceDate = this.datepipe.transform(this.formData.invoiceDate, 'yyyy-MM-dd');
+    this.formData.byersDate = this.datepipe.transform(this.formData.byersDate, 'yyyy-MM-dd');
+
     debugger
     this.httpClient.post(this.config.url + 'invoice/saveInvoice', this.formData).subscribe((data: any) => {
       if (data.status == true) {
