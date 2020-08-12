@@ -103,7 +103,7 @@ export class AddproductPage implements OnInit {
   addProduct() {
     debugger
     if (this.shared.itemMasterInStock >= this.shared.formData.quantity) {
-      if (this.shared.itemData.filter(x => x.itemId == this.shared.formData.itemId).length != 0) {
+      if (this.shared.itemData.filter(x => x.itemMasterId == this.shared.formData.itemMasterId).length != 0) {
         const index = this.shared.itemData.indexOf(this.shared.formData, 0);
         if (index > -1) {
           this.shared.itemData.splice(index, 1);
@@ -113,17 +113,17 @@ export class AddproductPage implements OnInit {
       this.showTable = true;
       this.showButton = true;
       this.shared.isSearch = false;
-      this.shared.formData = {
-        itemId: null,
-        hsnCode: null,
-        itemName: null,
-        quantity: null,
-        rate: null,
-        unit: null,
-        gst: null,
-        discount: null,
-        itemMasterId: null
-      };
+      // this.shared.formData = {
+      //   itemId: null,
+      //   hsnCode: null,
+      //   itemName: null,
+      //   quantity: null,
+      //   rate: null,
+      //   unit: null,
+      //   gst: null,
+      //   discount: null,
+      //   itemMasterId: null
+      // };
     }
     else {
       this.shared.presentDangerToast("you have only" + this.shared.itemMasterInStock + "quantity available");

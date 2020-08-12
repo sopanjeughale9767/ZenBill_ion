@@ -13,71 +13,71 @@ export class SearchitemPage implements OnInit {
   // searchItems: any;
   // isItemAvailable: boolean=false;
   searchItems = [];
-  
-  formData={
-    
-  } 
+
+  formData = {
+
+  }
   isSearch: boolean;
   constructor(
-    public httpClient :  HttpClient,
-    public shared : ShareddataService,
-    public config : ConfigProvider,
-    public router : Router,
-    public route:ActivatedRoute
+    public httpClient: HttpClient,
+    public shared: ShareddataService,
+    public config: ConfigProvider,
+    public router: Router,
+    public route: ActivatedRoute
 
-  ) { 
+  ) {
 
     this.route.params.subscribe(val => {
       this.getItemMaster();
     });
   }
- 
+
 
   ngOnInit() {
 
   }
 
-  getItemMaster(){
-     var object: { [k: string]: any } = {};
-     object.companyId = this.shared.companyData.companyId;
-     this.httpClient.post(this.config.url + 'itemMaster/getAll', object).subscribe((res: any) => {
-       if (res.status == true) {
-         this.searchItems = res.data;
-         this.shared.searchItems = res.data;
-       } else {
-         this.router.navigateByUrl('/additem');
-       }
-     });
-}
-  
+  getItemMaster() {
+    var object: { [k: string]: any } = {};
+    object.companyId = this.shared.companyData.companyId;
+    this.httpClient.post(this.config.url + 'itemMaster/getAll', object).subscribe((res: any) => {
+      if (res.status == true) {
+        this.searchItems = res.data;
+        this.shared.searchItems = res.data;
+      } else {
+        this.router.navigateByUrl('/additem');
+      }
+    });
+  }
 
 
-addNewItem(){
-  this.shared.navigateToSearchItem = true;
-  this.shared.itemMasterDataIsShow = false;
-  this.router.navigateByUrl("/addItemMasterItem");
-}
+
+  addNewItem() {
+    this.shared.navigateToSearchItem = true;
+    this.shared.itemMasterDataIsShow = false;
+    this.router.navigateByUrl("/addItemMasterItem");
+  }
   onSearchChange(ev: any) {
     const val = ev.target.value;
     if (val.replace(/\s/g, "").length < 1) {
       var dat: { [k: string]: any } = {};
       dat.key = val.toString();
       dat.companyId = this.shared.companyData.companyId;
-      this.httpClient.post(this.config.url + 'itemMaster/getAll',dat).subscribe((res: any) => {
+      this.httpClient.post(this.config.url + 'itemMaster/getAll', dat).subscribe((res: any) => {
         if (res.status == true) {
           this.searchItems = res.data;
-        } else { 
+        } else {
           this.shared.presentDangerToast("Failed..");
         }
       });
     }
     else {
-       
+
       // this.shared.presentLoading();
       var dat: { [k: string]: any } = {};
       dat.key = val.toString()
       dat.companyId = this.shared.companyData.companyId;
-      this.httpClient.post(this.config.url + 'itemMaster/searchItemMaster' ,dat).subscribe((res: any) => {
+      this.httpClient.post(this.config.url + 'itemMaster/searchItemMaster', dat).subscribe((res: any) => {
         if (res.status == true) {
           // this.isItemAvailable = true;
           // this.shared.presentSuccessToast(data.message);
@@ -89,15 +89,24 @@ addNewItem(){
       });
     }
   }
- 
+
   getItemDetails(item) {
     debugger
-this.shared.itemMasterInStock = item.stock;
-    this.shared.formData =item;
-    this.shared.formData.itemMasterId = item.itemMasterId;
+    var object;
+    object = this.shared.itemData.filter(x => x.itemMasterId == item.itemMasterId);
+    if(object.length != 0){
+      this.shared.itemMasterInStock = object[0].stock;
+      this.shared.formData = object[0];
+      this.shared.formData.itemMasterId = object[0].itemMasterId;
+    }
+else{ 
+  this.shared.itemMasterInStock = item.stock;
+  this.shared.formData = item;
+  this.shared.formData.itemMasterId = item.itemMasterId;
+}
     this.shared.isSearch = true;
     this.router.navigateByUrl('/addproduct');
-     
+
     // this.shared.presentLoading();
     // var dat: { [k: string]: any } = {};
     // dat.itemId = itemId;
