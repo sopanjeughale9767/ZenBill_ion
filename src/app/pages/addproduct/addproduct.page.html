@@ -7,15 +7,17 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-item class="ion-no-padding">
+  <ion-searchbar class="ion-no-padding" placeholder="Select Item" routerLink="/searchitem"
+    [debounce]="250"></ion-searchbar>
+
+    <ion-icon slot="end" name="add" color="primary" routerLink="/additem"></ion-icon>
+
+</ion-item>
+
 <ion-content>
-  <ion-item class="ion-no-padding">
-    <ion-searchbar class="ion-no-padding" placeholder="Select Item" routerLink="/searchitem"
-      [debounce]="250"></ion-searchbar>
 
-      <ion-icon slot="end" name="add" color="primary" routerLink="/additem"></ion-icon>
-
-  </ion-item>
-  <ion-card>
+  &nbsp;
     <form #Form="ngForm" class="form">
       <ng-container *ngIf="shared.isSearch==true">
         <ion-item>
@@ -24,20 +26,21 @@
         </ion-item>
       <ion-item>
         <ion-label position="floating">Enter Quantity</ion-label>
-        <ion-input type="number" name="quantity" [(ngModel)]="shared.formData.quantity" required></ion-input>
+        <ion-input  type="number" name="quantity" [(ngModel)]="shared.formData.quantity" required></ion-input>
       </ion-item>
-
+ 
       <ion-item>
         <ion-label position="floating">Enter Discount(%)</ion-label>
         <ion-input type="number" name="discount" [(ngModel)]="shared.formData.discount" required></ion-input>
       </ion-item>
-      <ion-item submit color="primary" [disabled]="!Form.form.valid" (click)="addProduct()" >
-        <ion-label class="ion-text-center" >Add Item</ion-label>
-      </ion-item>
+ <br>
+
+      <ion-button expand="block" color="primary" shape="round"  [disabled]="!Form.form.valid" (click)="addProduct()">
+        Add Item
+      </ion-button>
       
     </ng-container>
 </form>
-  </ion-card>
 
 
   <div class="printable-content" *ngIf="showTable && shared.itemData.length>0">

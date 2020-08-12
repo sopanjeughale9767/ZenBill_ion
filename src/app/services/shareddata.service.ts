@@ -6,13 +6,58 @@ import { ConfigProvider } from '../providers/config/config';
 import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
-}) 
+})
 export class ShareddataService {
 
-public customerDataIsShow: boolean;
-public dateWiseIsShow : boolean = false;
-public betweenDateWiseIsShow: boolean = false;
+  public customerDataIsShow: boolean;
+  public dateWiseIsShow: boolean = false;
+  public betweenDateWiseIsShow: boolean = false;
+  public itemMasterInStock: number;
+  public itemMasterDataIsShow: boolean = false;
+  public navigateToSearchItem: boolean;
+  // use to add itemmaster form
+  itemMasterForm = {
+    itemMasterId: null,
+    itemName: '',
+    hsnCode: '',
+    itemPrice: '',
+    unit: '',
+    gst: '',
+    cgst: '',
+    sgst: '',
+    igst: '',
+    companyId: null,
+    isActive: null,
+    per: '',
+    stock: null
+  };
 
+  stockForm = {
+    stockDetailsId: null,
+    stock: null,
+    stockRefCode: '', 
+    stockDate: '', 
+    itemMasterId: null
+  };
+
+
+
+
+  // itemMasterForm = {
+  //   itemId: null,
+  //   itemName: '',
+  //   hsnCode: '',
+  //   itemPrice: '',
+  //   unit: '',
+  //   gst: '',
+  //   cgst: '',
+  //   sgst: '',
+  //   igst:'',
+  //   companyId: '',
+  //   isActive: '',
+  //   per: '',
+  //   stock: null
+  // }
 
 
   currentOpenedModel: any = null;
@@ -20,7 +65,7 @@ public betweenDateWiseIsShow: boolean = false;
   public invoiceData: { [i: string]: any } = {};
   public customerData: { [r: string]: any } = {};
   public invoiceItems = new Array;
-public isLoginHidden=true;
+  public isLoginHidden = true;
   public customers = new Array;
   searchItem = new Array;
   showCard: boolean = false;
@@ -32,30 +77,31 @@ public isLoginHidden=true;
   isSearch: boolean = false;
   isGSTCompany = false;
   isSelectGST = false;
-  searchItems=[];
+  searchItems = [];
 
-  companyData={
-    companyName:''
-  ,companyEmail:''
-  ,companyGstNo:''
-  ,companyId:0
-  ,companyAddress:''
-  ,deliveryTerms:''
-  ,custMobile:''
-  ,pancard:''
-,phNo:''
-,deliveryNote:''
+  companyData = {
+    companyName: ''
+    , companyEmail: ''
+    , companyGstNo: ''
+    , companyId: 0
+    , companyAddress: ''
+    , deliveryTerms: ''
+    , custMobile: ''
+    , pancard: ''
+    , phNo: ''
+    , deliveryNote: ''
   };
-  
+
   formData = {
-    itemId:null,
+    itemId: null,
     hsnCode: null,
     itemName: null,
     quantity: null,
     rate: null,
     unit: null,
     gst: null,
-    discount: 0
+    discount: 0,
+    itemMasterId: null
 
   }
 
@@ -67,12 +113,12 @@ public isLoginHidden=true;
     custGstNumber: '',
     custStateName: '',
     custCode: '',
-    companyId:'',
-    custMobile:''
+    companyId: '',
+    custMobile: ''
   }
 
 
-isRouteByInvoice=false;
+  isRouteByInvoice = false;
   constructor(
     public loading: LoadingController,
     public storage: Storage,
@@ -86,6 +132,7 @@ isRouteByInvoice=false;
   ) {
     this.IsCompanyGstCheck();
   }
+
 
 
 
@@ -111,54 +158,38 @@ isRouteByInvoice=false;
   hideLoading() {
     this.loading.dismiss().catch(() => { });
   }
-  IsCompanyGstCheck() { 
-    try{
-    if (localStorage.getItem('companyData') != null) {
-       
-      this.companyData = JSON.parse(localStorage.getItem('companyData'));
-      (this.companyData.companyGstNo != '') ? this.isGSTCompany = true : this.isGSTCompany = false;
-      this.isLoginHidden=false;
-    } else {
-      this.isLoginHidden=true;
+  IsCompanyGstCheck() {
+    try {
+      if (localStorage.getItem('companyData') != null) {
 
-      this.router.navigate(['/login']);
-    }
-  }catch(ex){
-    this.logOut();
-  } 
-
-  }
-  getItemsData(){
-     
-    // this.presentLoading();
-     
-    var dat: { [k: string]: any } = {};
-    dat.companyId=this.companyData.companyId;
-    this.httpClient.post(this.config.url + 'itemMaster/getAll',dat).subscribe((res: any) => {
-
-      if (res.status == true) {
-        // this.isItemAvailable = true;
-        this.searchItems = res.data;
-        // this.presentSuccessToast(res.message);
+        this.companyData = JSON.parse(localStorage.getItem('companyData'));
+        (this.companyData.companyGstNo != '') ? this.isGSTCompany = true : this.isGSTCompany = false;
+        this.isLoginHidden = false;
       } else {
-        this.router.navigateByUrl('/additem');
+        this.isLoginHidden = true;
+
+        this.router.navigate(['/login']);
       }
-    });
+    } catch (ex) {
+      this.logOut();
+    }
+
   }
+  
   companyDetails(data) {
-     
+
     this.companyData = data;
 
     console.log(this.companyData);
     localStorage.setItem('companyData', JSON.stringify(this.companyData));
 
     localStorage.setItem('companyGstNo', this.companyData.companyGstNo);
-    localStorage.setItem('companyId', ''+this.companyData.companyId);
+    localStorage.setItem('companyId', '' + this.companyData.companyId);
     this.IsCompanyGstCheck();
     // this.subscribePush();
   }
   logOut() {
-    this.isLoginHidden=true;
+    this.isLoginHidden = true;
     localStorage.removeItem('companyData');
     this.router.navigateByUrl('/login');
     // this.fb.logout();

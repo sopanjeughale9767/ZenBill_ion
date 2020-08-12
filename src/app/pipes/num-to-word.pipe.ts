@@ -40,7 +40,6 @@ export class NumberToWordsPipe implements PipeTransform {
     'Ninety'];
 
   transform(value: any, args?: any): any {
-    debugger
     if (value) {
       let num: any = Number(value.toString().split(".")[0]);
       if (num) {
@@ -59,7 +58,6 @@ export class NumberToWordsPipe implements PipeTransform {
         let paise: any = Number(value.toString().split(".")[1]);
         //
         if(paise){
-          debugger
           if ((paise = paise.toString()).length > 9)  { return 'OUT OF LIMIT:)'; }
           const n = ('000000000' + paise).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
           if (!n) {return ''; }

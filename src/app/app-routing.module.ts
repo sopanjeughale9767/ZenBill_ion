@@ -29,6 +29,7 @@ const routes: Routes = [
   { path: 'invoice', component: InvoiceComponent,canActivate: [AuthGuardService] },  { path: 'report', loadChildren: './pages/report/report.module#ReportPageModule' },
   { path: 'salesreport', loadChildren: './pages/salesreport/salesreport.module#SalesreportPageModule' },
   { path: 'reportmethod', loadChildren: './pages/reportmethod/reportmethod.module#ReportmethodPageModule' },
+  { path: 'item-master-stock', loadChildren: './pages/item-master-stock/item-master-stock.module#ItemMasterStockPageModule' },
 
 
 ];

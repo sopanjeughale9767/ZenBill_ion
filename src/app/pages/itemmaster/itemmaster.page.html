@@ -3,15 +3,28 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Item Master</ion-title>
+    <ion-title>Item List</ion-title>
+
+
+
+<ion-buttons slot="end">
+
+  <ion-button color="light" shape="round"  (click)="addNewItem()">
+    <ion-icon slot="icon-only" name="add"></ion-icon>
+  </ion-button>
+ 
+
+</ion-buttons>
+     
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-button routerLink="/addItemMasterItem" color="primary" expand="block">
-    Add New Item
-  </ion-button>
-  <div class="printable-content">
+  <br>
+  <!-- <ion-button (click)="addNewItem()" color="primary" expand="block">
+    Add Item
+  </ion-button> -->
+  <div *ngIf="itemMastersData.length > 0" class="printable-content">
     <table width="100%">
       <tr class="bottom">
         <th>HSN</th>
@@ -22,11 +35,10 @@
         <th>GST(%)</th>
         <!-- <th *ngIf="isIntra">SGST</th> -->
         <!-- <th *ngIf="!isIntra">igst</th> -->
-
         <th></th>
         <th></th>
       </tr>
-      <ng-container *ngFor="let item of shared.itemMastersData">
+      <ng-container *ngFor="let item of itemMastersData">
         <tr>
           <td>{{item.hsnCode}}</td>
           <td>{{item.itemName}}</td>
@@ -37,8 +49,9 @@
  
           <!-- <td *ngIf="!isIntra">{{item.gst}}</td> -->
           <td>
-            <ion-icon slot="icon-only" name="trash" style="color: red;" (click)="deleteItem(item)"></ion-icon>&nbsp;&nbsp;
-              <ion-icon slot="icon-only" name="create" routerLink="/updateitemmasteritem/{{item.itemId}}"></ion-icon>
+            <ion-icon slot="icon-only" name="create" (click)="updateItem(item)"></ion-icon>&nbsp;&nbsp;
+            <ion-icon slot="icon-only" name="stats" (click)="updateStock(item)"></ion-icon>&nbsp;&nbsp;
+            <ion-icon slot="icon-only" name="trash" style="color: red;" (click)="deleteItem(item)"></ion-icon>
           </td>
         </tr>
       </ng-container>

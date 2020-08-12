@@ -34,16 +34,15 @@ export class AdditemPage implements OnInit {
   ngOnInit() { 
 this.formData;
   }
-
+ 
   addItem() {
-    debugger
     this.shared.presentLoading();
     this.formData.custId = this.shared.customerData.custId;
     this.formData.companyId =this.shared.companyData.companyId;
     this.httpClient.post(this.config.url + 'itemmaster/addItemMaster', this.formData).subscribe((res: any) => {
       if (res.status == true) {
         this.shared.presentSuccessToast(res.message);
-        this.shared.getItemsData();
+        // this.shared.getItemsData();
         this.router.navigateByUrl('/searchitem');
       } else {
         this.shared.presentDangerToast(res.message);

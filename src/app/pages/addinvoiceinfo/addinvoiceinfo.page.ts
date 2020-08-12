@@ -46,7 +46,7 @@ export class AddinvoiceinfoPage implements OnInit {
     public router: Router,
     public datepipe: DatePipe,
   ) {
-    // debugger
+    //  
 
   }
 
@@ -54,37 +54,28 @@ export class AddinvoiceinfoPage implements OnInit {
   }
 
   onChange(paymentMode) {
-
-    debugger
     var dat: { [k: string]: any } = {};
     dat.companyId = this.shared.companyData.companyId;
     dat.paymentMode = paymentMode;
-
     this.httpClient.get(this.config.url + 'invoice/getInvoiceById/0', dat).subscribe((res: any) => {
-
       this.shared.invoiceNumber = this.formData.invoiceNumber = (res.result[0].total + 1);
-
-
-      // this.formData.invoiceDate = this.datepipe.transform(new Date(), 'dd-mm-yyyy');
-
       if (this.shared.invoiceNumber == 1) {
         this.isStart = false;
       }
     });
 
   }
+
+  // save invoice method
   saveInvoice() {
-    debugger 
     this.shared.customerData;
     this.shared.customerFormData;
     if (this.shared.isSelectGST) {
-      debugger
       if (this.shared.customerData.custGstNumber.substring(0, 2) == this.shared.companyData.companyGstNo.substring(0, 2)) {
         this.shared.itemData.forEach(element => {
           element.cgst = element.gst / 2;
           element.sgst = element.gst / 2;
           element.igst = 0;
-
         })
       } else {
         this.shared.itemData.forEach(element => {
@@ -96,41 +87,47 @@ export class AddinvoiceinfoPage implements OnInit {
     }
     this.shared.presentLoading();
     this.formData.items = this.shared.itemData;
-
     this.formData.custId = this.shared.customerData.custId;
     this.formData.custName = this.shared.customerData.custName;
-
     this.formData.invoiceDate = this.datepipe.transform(this.formData.invoiceDate, 'yyyy-MM-dd');
     this.formData.byersDate = this.datepipe.transform(this.formData.byersDate, 'yyyy-MM-dd');
-
-    debugger
     this.httpClient.post(this.config.url + 'invoice/saveInvoice', this.formData).subscribe((data: any) => {
       if (data.status == true) {
-        this.shared.invoiceData = data.result[0];
-
-        this.shared.presentSuccessToast(data.message);
-        this.templateNumber = localStorage.getItem('number');
-        if (parseInt(this.templateNumber) == 1) {
-          this.router.navigateByUrl("/template1");
-        } else {
-          if (parseInt(this.templateNumber) == 2) {
-            this.router.navigateByUrl("/template2");
-          } else {
-            if (parseInt(this.templateNumber) == 3) {
-              this.router.navigateByUrl("/template3");
-            } else {
-              if (parseInt(this.templateNumber) == 4) {
-                this.router.navigateByUrl("/home");
+        this.shared.itemData.forEach(element => {
+          this.shared.itemMasterForm = this.shared.searchItems.find(item => item.itemMasterId === element.itemMasterId);
+          var val = this.shared.itemMasterForm.stock;
+          var subVal = val - element.quantity;
+          this.shared.itemMasterForm.stock = subVal;
+          this.httpClient.post(this.config.url + 'itemmaster/updateItemMaster', this.shared.itemMasterForm).subscribe((res: any) => {
+            if (res.status == true) {
+              this.shared.invoiceData = data.result[0];
+              this.shared.presentSuccessToast("Invoice Generated succeffully");
+              this.templateNumber = localStorage.getItem('number');
+              if (parseInt(this.templateNumber) == 1) {
+                this.router.navigateByUrl("/template1");
               } else {
-                this.router.navigateByUrl("/home");
+                if (parseInt(this.templateNumber) == 2) {
+                  this.router.navigateByUrl("/template2");
+                } else {
+                  if (parseInt(this.templateNumber) == 3) {
+                    this.router.navigateByUrl("/template3");
+                  } else {
+                    if (parseInt(this.templateNumber) == 4) {
+                      this.router.navigateByUrl("/home");
+                    } else {
+                      this.router.navigateByUrl("/home");
+                    }
+                  }
+                }
               }
+            } else {
+              this.shared.presentDangerToast(data.message);
             }
-          }
-        }
+          })
+        });
       } else {
         this.shared.presentDangerToast(data.message);
       }
-
     })
   }
 }

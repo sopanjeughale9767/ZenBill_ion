@@ -4,6 +4,15 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Search Customer</ion-title>
+
+    <ion-buttons slot="end">
+
+      <ion-button color="light" shape="round" (click)="addCustommer()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+     
+    
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -20,7 +29,7 @@
 
   <ion-item class="ion-no-padding">
     <ion-searchbar class="ion-no-padding" placeholder="Search Customer" (ionInput)="searchCustomer($event)" [debounce]="250"></ion-searchbar>
-    <ion-icon slot="end" name="add" color="green" (click)="addCustommer()"  ></ion-icon>
+    <!-- <ion-icon slot="end" name="add" color="green" (click)="addCustommer()"  ></ion-icon> -->
   </ion-item>
   <ion-list *ngIf="isItemAvailable">
       <ion-item *ngFor="let item of customers">

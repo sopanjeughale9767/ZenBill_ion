@@ -114,10 +114,7 @@ public loader = 'dots';
 
   // this is temprary used by rs
   postHttp(req, data){
-    debugger
-
     return new Promise(resolve => {
-      debugger
         this.http.get(this.url + req, data).subscribe((data: any) => {
           resolve(data);
         }, (err) => {

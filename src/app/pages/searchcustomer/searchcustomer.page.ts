@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ShareddataService } from 'src/app/services/shareddata.service';
 import { HttpClient } from '@angular/common/http';
 import { ConfigProvider } from 'src/app/providers/config/config';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { concat } from 'rxjs';
 
 @Component({
@@ -13,23 +13,29 @@ import { concat } from 'rxjs';
 export class SearchcustomerPage implements OnInit {
 
   public customers: Array<any>;
+  public isItemAvailable: boolean = false;
 
-  isItemAvailable: boolean = false;
   page = 1;
   limit = 10;
+
   constructor(
     public shared: ShareddataService,
     public httpClient: HttpClient,
     public config: ConfigProvider,
     public router: Router,
+    public route:ActivatedRoute
 
-  ) { }
+  ) {
+    this.route.params.subscribe(val => {
+      this.getCustomer();
+    });
+  }
 
   ngOnInit() {
-      
-    // this.shared.presentLoading();
+  }
+
+  getCustomer() {
     var dat: { [k: string]: any } = {};
-    // dat.custid = localStorage.getItem('custId');;
     dat.companyId = this.shared.companyData.companyId;
     dat.isSelectGST = this.shared.isSelectGST;
     this.httpClient.post(this.config.url + 'customer/getAll/' + '?' + 'page=' + this.page + '&' + 'limit=' + this.limit, dat).subscribe((res: any) => {
@@ -43,39 +49,36 @@ export class SearchcustomerPage implements OnInit {
           this.customers = res.data;
         }
       }
-      
     });
+  }
+
+  addCustommer() {
+    this.shared.customerDataIsShow = false;
+    this.router.navigateByUrl("/addnewcustomer");
   }
 
   doRefresh(event) {
     this.page = 1;
     this.limit = 10;
-   this.ngOnInit();
-
+    this.ngOnInit();
     setTimeout(() => {
       console.log('Async operation has ended');
       event.target.complete();
     }, 500);
   }
 
-
-
-
   loadNextCustomer(event) {
- 
     this.page++;
-
     setTimeout(() => {
-    this.ngOnInit();
+      this.ngOnInit();
       event.target.complete();
     }, 500);
   }
-  searchCustomer(ev: any) {
 
+  searchCustomer(ev: any) {
     const val = ev.target.value;
     if (val.replace(/\s/g, "").length < 1) {
       var dat: { [k: string]: any } = {};
-      // dat.custid = localStorage.getItem('custId');;
       dat.companyId = this.shared.companyData.companyId;
       dat.isSelectGST = this.shared.isSelectGST;
       if (dat.companyId == null)
@@ -88,7 +91,7 @@ export class SearchcustomerPage implements OnInit {
         }
       });
     }
-     else {
+    else {
       // this.shared.presentLoading();
       var dat: { [k: string]: any } = {};
       dat.key = val.toString()
@@ -104,7 +107,6 @@ export class SearchcustomerPage implements OnInit {
         }
       });
     }
-
   }
 
   getCustomerDetails(custId) {
@@ -112,7 +114,6 @@ export class SearchcustomerPage implements OnInit {
     dat.custId = custId;
     dat.companyId = this.shared.companyData.companyId;
     dat.isSelectGST = this.shared.isSelectGST;
-
     this.httpClient.post(this.config.url + 'customer/getCustomer', dat).subscribe((res: any) => {
       if (res.status == true) {
         this.shared.customerData = res.data[0];
@@ -133,23 +134,15 @@ export class SearchcustomerPage implements OnInit {
     this.router.navigateByUrl('/addnewcustomer');
   }
 
-
   deleteCustomer(obj) {
-
     this.httpClient.patch(this.config.url + 'customer/deleteCustomer/', obj).subscribe((res: any) => {
       if (res.status == true) {
-        this.ngOnInit();
-
+        this.getCustomer();
         this.shared.presentSuccessToast(res.message);
       } else {
         this.shared.presentDangerToast(res.message);
       }
     });
   }
-
-
-  addCustommer(){
-    this.shared.customerDataIsShow = false;
-    this.router.navigateByUrl("/addnewcustomer");
-  }
+ 
 }

@@ -57,7 +57,6 @@ public numToWord: NumberToWordsPipe
 
   ngOnInit() {
 console.log(this.shared.customerData);
-        debugger
         // Declaration part
         this.CustGSTNumber = this.shared.customerData.custGstNumber;
         
@@ -71,7 +70,6 @@ console.log(this.shared.customerData);
     var dat: { [k: string]: any } = {};
     dat.custId = this.shared.customerData.custId;
     dat.companyId = this.shared.companyData.companyId;
-    debugger
      this.config.postHttp('invoice/getInvoiceById/' + this.shared.invoiceData.invoiceId,dat).then((data: any) => {
       if (data.status == true) {
         this.shared.invoiceData = data.result[0];
@@ -128,7 +126,6 @@ console.log(this.invoiceAllData);
     var temp1 = [];
     let totalValueTable=[];
     let DescTotalTabl=[];
-debugger
     temp.push([
 
       { text: 'Description Of Goods', fillColor: 'whitesmoke', alignment: 'center' },
@@ -144,7 +141,6 @@ debugger
       { text: 'Amt', fillColor: 'whitesmoke', alignment: 'center' }
 
     ]);
-debugger
     this.shared.invoiceItems.forEach(element => {
       temp.push(
         [

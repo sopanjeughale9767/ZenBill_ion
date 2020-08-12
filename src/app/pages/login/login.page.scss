@@ -1,7 +1,7 @@
 .logo{
     height: 150px;
     width: 150px;
-    border-radius: 50%;
+    border-radius: 70%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
@@ -9,3 +9,24 @@
     overflow: hidden;
     border-width: 0.5px;
 }
+
+
+ 
+ion-content{
+    background-size: cover;
+    text-align: center;
+}
+.logoImg{
+    margin-top: 15px;
+    width: 120px;
+}
+
+.sinIntext{
+    font-weight: bold;
+    font-size: 27px;
+    color: black;
+  }
+
+  .eyeIcon{
+    padding-top: 15px;
+  }

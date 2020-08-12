@@ -35,7 +35,7 @@ export class AddnewcustomerPage implements OnInit {
       }
     }
   }
-
+ 
   add() {
     if (this.shared.customerFormData.custId == null) {
       // this.shared.presentLoading();
@@ -48,7 +48,7 @@ export class AddnewcustomerPage implements OnInit {
           this.shared.presentDangerToast(res.message);
         }
       });
-    }
+    } 
     else {
       this.httpClient.patch(this.config.url + 'customer/updateCustomer/', this.shared.customerFormData).subscribe((res: any) => {
         if (res.status == true) {

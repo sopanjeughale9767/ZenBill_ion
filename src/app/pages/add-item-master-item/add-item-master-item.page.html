@@ -3,29 +3,40 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Add Item</ion-title>
+    <ion-title  *ngIf="shared.itemMasterForm.itemMasterId == null">Add Item</ion-title>
+    <ion-title *ngIf="shared.itemMasterForm.itemMasterId != null">update Item</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content padding>
+  <form #Form="ngForm" class="form" (ngSubmit)="addItem()">
   <ion-item>
     <ion-label position="floating">Item Name <ion-text color="danger">*</ion-text>
     </ion-label>
-    <ion-input type="text" name="itemName" [(ngModel)]="formData.itemName" required></ion-input>
+    <ion-input type="text" name="itemName" [(ngModel)]="shared.itemMasterForm.itemName" required></ion-input>
   </ion-item>
 
+  <ion-item>
+    <ion-label position="floating">Stock<ion-text color="danger">*</ion-text>
+    </ion-label>
+    <ion-input type="number" name="stock" [(ngModel)]="shared.itemMasterForm.stock" required></ion-input>
+  </ion-item>
 
+  <ion-item>
+    <ion-label position="floating">Stock ref 
+    </ion-label>
+    <ion-input type="text" name="stockRefCode" [(ngModel)]="shared.stockForm.stockRefCode"></ion-input>
+  </ion-item>
 
   <ion-item>
     <ion-label position="floating">HSN Code <ion-text color="danger">*</ion-text>
     </ion-label>
-    <ion-input type="text" name="hsnCode" [(ngModel)]="formData.hsnCode" required></ion-input>
+    <ion-input type="text" name="hsnCode" [(ngModel)]="shared.itemMasterForm.hsnCode" required></ion-input>
   </ion-item>
   <ion-item>
     <ion-label position="floating">Select unit<ion-text color="danger">*</ion-text>
     </ion-label>
-    <ion-select name="unit" [(ngModel)]="formData.unit" required>
+    <ion-select name="unit" [(ngModel)]="shared.itemMasterForm.unit" required>
       <ion-select-option value="Kg">Kg</ion-select-option>
       <ion-select-option value="Gram">Gram</ion-select-option>
       <ion-select-option value="Liter">Liter</ion-select-option>
@@ -35,14 +46,14 @@
   <ion-item>
     <ion-label position="floating">Rate <ion-text color="danger">*</ion-text>
     </ion-label>
-    <ion-input type="number" name="itemPrice" [(ngModel)]="formData.itemPrice" required></ion-input>
+    <ion-input type="number" name="itemPrice" [(ngModel)]="shared.itemMasterForm.itemPrice" required></ion-input>
   </ion-item>
 
-  
+
   <ion-item>
     <ion-label position="floating">Select Price Per<ion-text color="danger">*</ion-text>
     </ion-label>
-    <ion-select name="unit" [(ngModel)]="formData.per" required>
+    <ion-select name="unit" [(ngModel)]="shared.itemMasterForm.per" required>
       <ion-select-option value="Kg">Kg</ion-select-option>
       <ion-select-option value="Gram">Gram</ion-select-option>
       <ion-select-option value="Liter">Liter</ion-select-option>
@@ -53,10 +64,12 @@
   <ion-item>
     <ion-label position="floating">GST Value(%)<ion-text color="danger">*</ion-text>
     </ion-label>
-    <ion-input type="number" name="gst" [(ngModel)]="formData.gst" required></ion-input>
+    <ion-input type="number" name="gst" [(ngModel)]="shared.itemMasterForm.gst" required></ion-input>
   </ion-item>
-
-  <ion-item button (click)="addItem()" class="ion-text-center" color="primary">
-    <ion-label>Add Item</ion-label>
-  </ion-item>
+<br>
+  <ion-button [disabled]="!Form.form.valid" expand="block" shape="round" (click)="addItem()">
+    <ion-text  *ngIf="shared.itemMasterForm.itemMasterId == null">Add </ion-text>
+    <ion-text  *ngIf="shared.itemMasterForm.itemMasterId != null">update</ion-text>
+  </ion-button>
+  </form>
 </ion-content>

@@ -18,7 +18,8 @@ export class AddproductPage implements OnInit {
     rate: null,
     unit: null,
     gst: null,
-    discount: 0
+    discount: 0,
+
 
   }
   invoiceId: any;
@@ -47,16 +48,15 @@ export class AddproductPage implements OnInit {
   }
 
 
- 
 
   onSearchChange(ev: any) {
-     debugger
+
     const val = ev.target.value;
-    if (val.replace(/\s/g, "").length < 1) { 
+    if (val.replace(/\s/g, "").length < 1) {
       var dat: { [k: string]: any } = {};
-      dat.custid=this.shared.customerData.custid;
-      dat.companyId=this.shared.companyData.companyId;
-      this.httpClient.post(this.config.url + 'itemMaster/getAll',dat).subscribe((data: any) => {
+      dat.custid = this.shared.customerData.custid;
+      dat.companyId = this.shared.companyData.companyId;
+      this.httpClient.post(this.config.url + 'itemMaster/getAll', dat).subscribe((data: any) => {
         if (data.status == true) {
           this.searchItems = data.result;
           this.isItemAvailable = true;
@@ -98,35 +98,38 @@ export class AddproductPage implements OnInit {
       }
 
     })
-  } 
+  }
 
   addProduct() {
-     
-    if(this.shared.itemData.filter(x => x.itemId == this.shared.formData.itemId).length!=0){
-      const index = this.shared.itemData.indexOf(this.shared.formData, 0);
-      // delete this.shared.itemData[key];
-
-if (index > -1) {
-  this.shared.itemData.splice(index, 1);
-}
+    debugger
+    if (this.shared.itemMasterInStock >= this.shared.formData.quantity) {
+      if (this.shared.itemData.filter(x => x.itemId == this.shared.formData.itemId).length != 0) {
+        const index = this.shared.itemData.indexOf(this.shared.formData, 0);
+        if (index > -1) {
+          this.shared.itemData.splice(index, 1);
+        }
+      } 
+      this.shared.itemData.push(this.shared.formData);
+      this.showTable = true;
+      this.showButton = true;
+      this.shared.isSearch = false;
+      this.shared.formData = {
+        itemId: null,
+        hsnCode: null,
+        itemName: null,
+        quantity: null,
+        rate: null,
+        unit: null,
+        gst: null,
+        discount: null,
+        itemMasterId: null
+      };
     }
-    this.shared.itemData.push(this.shared.formData);
-    // console.log(this.shared.itemData);
-    this.showTable = true;
-    this.showButton = true;
-    this.shared.isSearch = false;
-    this.shared.formData = {
-      itemId:null,
-      hsnCode: null,
-      itemName: null,
-      quantity: null,
-      rate: null,
-      unit: null,
-      gst: null,
-      discount: null
-    };
- 
-}
+    else {
+      this.shared.presentDangerToast("you have only" + this.shared.itemMasterInStock + "quantity available");
+      this.shared.formData.quantity = this.shared.itemMasterInStock;
+    }
+  }
 
   removeItem1(key) {
     const index = this.shared.itemData.findIndex(i => i.itemId === key);
