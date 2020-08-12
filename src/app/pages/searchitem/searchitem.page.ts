@@ -43,6 +43,7 @@ export class SearchitemPage implements OnInit {
      this.httpClient.post(this.config.url + 'itemMaster/getAll', object).subscribe((res: any) => {
        if (res.status == true) {
          this.searchItems = res.data;
+         this.shared.searchItems = res.data;
        } else {
          this.router.navigateByUrl('/additem');
        }
